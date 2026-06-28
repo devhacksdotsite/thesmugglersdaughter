@@ -36,7 +36,7 @@ Markdown Content Collections
 | Layer | Technology |
 |---|---|
 | Frontend | Astro |
-| Styling | Tailwind CSS (optional) |
+| Styling | Tailwind CSS v4 |
 | Content | Markdown Collections |
 | Hosting | AWS S3 |
 | CDN | AWS CloudFront |
@@ -87,6 +87,36 @@ Benefits:
 ---
 
 # Implementation Plan
+
+---
+
+## Theme
+
+Tailwind CSS v4 with `@theme` tokens in `src/styles/global.css`:
+
+```css
+@theme {
+  --font-sans: var(--font-atkinson), ui-sans-serif, system-ui, sans-serif;
+  --color-brand: #1f2937;
+  --color-brand-light: #374151;
+  --color-surface: #ffffff;
+  --color-surface-dark: #111827;
+  --color-muted: #6b7280;
+}
+```
+
+| Token | Usage |
+|---|---|
+| `text-brand` | Primary text, headings, active nav links |
+| `text-muted` | Secondary text, inactive nav, footer copy |
+| `bg-surface` | Light mode background |
+| `bg-surface-dark` | Dark mode background |
+| `--font-sans` | Atkinson font family with system fallbacks |
+
+Dark mode:
+- Class-based toggle (`.dark` on `<html>`)
+- Respects system preference via `prefers-color-scheme`
+- Persists choice in `localStorage`
 
 ---
 

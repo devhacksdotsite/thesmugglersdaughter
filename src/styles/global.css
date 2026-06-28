@@ -2,6 +2,15 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+	--font-sans: var(--font-atkinson), ui-sans-serif, system-ui, sans-serif;
+	--color-brand: #1f2937;
+	--color-brand-light: #374151;
+	--color-surface: #ffffff;
+	--color-surface-dark: #111827;
+	--color-muted: #6b7280;
+}
+
 /*
   The CSS in this style tag is based off of Bear Blog's default CSS.
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
@@ -21,20 +30,19 @@
 		0 16px 32px rgba(var(--gray), 33%);
 }
 body {
-	font-family: var(--font-atkinson);
+	font-family: var(--font-sans);
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
+	background: var(--color-surface);
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
+	color: var(--color-brand);
 	font-size: 20px;
 	line-height: 1.7;
 }
 .dark body {
-	background: #111827;
+	background: var(--color-surface-dark);
 	color: #e5e7eb;
 }
 main {

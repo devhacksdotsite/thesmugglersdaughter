@@ -3,9 +3,9 @@ import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
-<header class="sticky top-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur dark:border-gray-700 dark:bg-gray-900/90">
+<header class="sticky top-0 z-50 border-b border-gray-200 bg-surface/90 backdrop-blur dark:border-gray-700 dark:bg-surface-dark/90">
 	<nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-		<a href="/" class="text-lg font-bold tracking-tight text-gray-900 no-underline dark:text-white">
+		<a href="/" class="text-lg font-bold tracking-tight text-brand no-underline dark:text-white">
 			{SITE_TITLE}
 		</a>
 
@@ -28,7 +28,7 @@ import HeaderLink from './HeaderLink.astro';
 			<!-- Mobile hamburger -->
 			<button
 				id="menu-toggle"
-				class="inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 md:hidden"
+				class="inline-flex items-center justify-center rounded-md p-2 text-muted hover:bg-gray-100 dark:hover:bg-gray-800 md:hidden"
 				aria-label="Toggle menu"
 				aria-expanded="false"
 			>
@@ -41,7 +41,7 @@ import HeaderLink from './HeaderLink.astro';
 			<!-- Dark mode toggle -->
 			<button
 				id="theme-toggle"
-				class="rounded-md p-2 text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+				class="rounded-md p-2 text-muted hover:bg-gray-100 dark:hover:bg-gray-800"
 				aria-label="Toggle dark mode"
 			>
 				<svg class="h-5 w-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -74,20 +74,20 @@ import HeaderLink from './HeaderLink.astro';
 
 <style>
 	.btn-book {
-		border-color: #111827;
-		color: #111827;
+		border-color: var(--color-brand);
+		color: var(--color-brand);
 	}
 	.btn-book:hover {
-		background-color: #111827;
-		color: #fff;
+		background-color: var(--color-brand);
+		color: var(--color-surface);
 	}
 	:global(.dark) .btn-book {
-		border-color: #fff;
-		color: #fff;
+		border-color: var(--color-surface);
+		color: var(--color-surface);
 	}
 	:global(.dark) .btn-book:hover {
-		background-color: #fff;
-		color: #111827;
+		background-color: var(--color-surface);
+		color: var(--color-brand);
 	}
 </style>
 
