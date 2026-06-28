@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /*
   The CSS in this style tag is based off of Bear Blog's default CSS.
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
@@ -7,8 +9,8 @@
  */
 
 :root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
+	--accent: #374151;
+	--accent-dark: #111827;
 	--black: 15, 18, 25;
 	--gray: 96, 115, 159;
 	--gray-light: 229, 233, 240;
@@ -30,6 +32,10 @@ body {
 	color: rgb(var(--gray-dark));
 	font-size: 20px;
 	line-height: 1.7;
+}
+.dark body {
+	background: #111827;
+	color: #e5e7eb;
 }
 main {
 	width: 720px;
@@ -67,10 +73,10 @@ b {
 	font-weight: 700;
 }
 a {
-	color: var(--accent);
+	color: inherit;
 }
 a:hover {
-	color: var(--accent);
+	color: inherit;
 }
 p {
 	margin-bottom: 1em;
