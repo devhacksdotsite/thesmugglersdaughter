@@ -2,47 +2,324 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
+
+// Get all blog posts and sort by date (newest first)
+const posts = (await getCollection('blog')).sort(
+	(a, b) => new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
+);
+
+// Get the latest 3 posts
+const latestPosts = posts.slice(0, 3);
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			:root {
+				--font-display: 'Playfair Display', serif;
+				--font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+			}
+
+			body {
+				font-family: var(--font-body) !important;
+				background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 50%, #f0f0f5 100%);
+				min-height: 100vh;
+			}
+
+			main {
+				padding-top: 2rem !important;
+			}
+
+			.hero {
+				background: linear-gradient(135deg, #0f1219 0%, #1a1f2e 50%, #2d1b4e 100%);
+				padding: 5rem 2rem 4rem 2rem;
+				margin: -3em -1em 4rem -1em;
+				text-align: center;
+				border-bottom: 1px solid rgba(35, 55, 255, 0.3);
+				position: relative;
+				overflow: hidden;
+			}
+
+			.hero::before {
+				content: '';
+				position: absolute;
+				top: -50%;
+				right: -10%;
+				width: 500px;
+				height: 500px;
+				background: radial-gradient(circle, rgba(35, 55, 255, 0.1) 0%, transparent 70%);
+				border-radius: 50%;
+				z-index: 0;
+			}
+
+			.hero::after {
+				content: '';
+				position: absolute;
+				bottom: -30%;
+				left: -10%;
+				width: 400px;
+				height: 400px;
+				background: radial-gradient(circle, rgba(93, 39, 209, 0.08) 0%, transparent 70%);
+				border-radius: 50%;
+				z-index: 0;
+			}
+
+			.hero > * {
+				position: relative;
+				z-index: 1;
+			}
+
+			.hero h1 {
+				font-family: var(--font-display);
+				font-size: 3.5rem;
+				color: #ffffff;
+				margin-bottom: 0.75rem;
+				font-weight: 800;
+				letter-spacing: -2px;
+				line-height: 1.1;
+			}
+
+			.hero p {
+				font-size: 1.15rem;
+				color: rgba(255, 255, 255, 0.85);
+				max-width: 680px;
+				margin: 1.5rem auto 0;
+				line-height: 1.8;
+				font-weight: 400;
+				letter-spacing: 0.3px;
+			}
+
+			.posts-section {
+				margin-top: 4rem;
+			}
+
+			.posts-section h2 {
+				font-family: var(--font-display);
+				font-size: 2.8rem;
+				color: #0f1219;
+				margin-bottom: 0.5rem;
+				text-align: center;
+				font-weight: 800;
+				letter-spacing: -1px;
+			}
+
+			.posts-section > p {
+				text-align: center;
+				color: rgba(15, 18, 25, 0.6);
+				font-size: 1rem;
+				margin-bottom: 3rem;
+				letter-spacing: 0.5px;
+			}
+
+			.posts-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+				gap: 2.5rem;
+				margin-bottom: 4rem;
+			}
+
+			.post-card {
+				background: white;
+				border-radius: 16px;
+				overflow: hidden;
+				box-shadow: 0 10px 30px rgba(15, 18, 25, 0.08), 0 1px 3px rgba(15, 18, 25, 0.12);
+				transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+				display: flex;
+				flex-direction: column;
+				border: 1px solid rgba(35, 55, 255, 0.05);
+			}
+
+			.post-card:hover {
+				transform: translateY(-8px);
+				box-shadow: 0 25px 50px rgba(15, 18, 25, 0.15), 0 2px 8px rgba(35, 55, 255, 0.2);
+				border-color: rgba(35, 55, 255, 0.15);
+			}
+
+			.post-image {
+				width: 100%;
+				height: 240px;
+				object-fit: cover;
+				background: linear-gradient(135deg, #f0f4ff 0%, #f5f0ff 100%);
+				transition: transform 0.4s ease;
+			}
+
+			.post-card:hover .post-image {
+				transform: scale(1.05);
+			}
+
+			.post-content {
+				padding: 2rem;
+				display: flex;
+				flex-direction: column;
+				flex-grow: 1;
+			}
+
+			.post-date {
+				font-size: 0.8rem;
+				color: rgba(15, 18, 25, 0.5);
+				margin-bottom: 0.75rem;
+				text-transform: uppercase;
+				letter-spacing: 1.2px;
+				font-weight: 600;
+			}
+
+			.post-card h3 {
+				font-family: var(--font-display);
+				font-size: 1.75rem;
+				margin: 0.5rem 0 1rem 0;
+				color: #0f1219;
+				line-height: 1.3;
+				font-weight: 700;
+				letter-spacing: -0.5px;
+			}
+
+			.post-description {
+				color: rgba(15, 18, 25, 0.7);
+				font-size: 0.95rem;
+				line-height: 1.7;
+				margin-bottom: 1.5rem;
+				flex-grow: 1;
+				letter-spacing: 0.3px;
+			}
+
+			.post-link {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				color: #2337ff;
+				text-decoration: none;
+				font-weight: 600;
+				font-size: 0.95rem;
+				transition: all 0.3s ease;
+				width: fit-content;
+				letter-spacing: 0.3px;
+			}
+
+			.post-link:hover {
+				color: #000d8a;
+				gap: 0.75rem;
+			}
+
+			.archive-link {
+				text-align: center;
+				margin-top: 3rem;
+				padding-top: 3rem;
+				border-top: 1px solid rgba(35, 55, 255, 0.1);
+			}
+
+			.archive-link a {
+				display: inline-block;
+				background: linear-gradient(135deg, #2337ff 0%, #1a25cc 100%);
+				color: white;
+				padding: 1rem 2.5rem;
+				border-radius: 12px;
+				text-decoration: none;
+				font-weight: 600;
+				font-size: 1rem;
+				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+				letter-spacing: 0.5px;
+				box-shadow: 0 8px 20px rgba(35, 55, 255, 0.25);
+				border: 1px solid transparent;
+			}
+
+			.archive-link a:hover {
+				transform: translateY(-3px);
+				box-shadow: 0 15px 40px rgba(35, 55, 255, 0.35);
+				border-color: rgba(255, 255, 255, 0.2);
+			}
+
+			.archive-link a:active {
+				transform: translateY(-1px);
+			}
+
+			@media (max-width: 640px) {
+				.hero {
+					padding: 3rem 1rem 2.5rem 1rem;
+					margin: -3em -1em 2.5rem -1em;
+				}
+
+				.hero h1 {
+					font-size: 2.25rem;
+				}
+
+				.hero p {
+					font-size: 1rem;
+				}
+
+				.posts-grid {
+					grid-template-columns: 1fr;
+					gap: 2rem;
+				}
+
+				.posts-section h2 {
+					font-size: 2rem;
+				}
+
+				.post-image {
+					height: 200px;
+				}
+
+				.post-content {
+					padding: 1.5rem;
+				}
+
+				.post-card h3 {
+					font-size: 1.35rem;
+				}
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			<div class="hero">
+				<h1>Welcome to Our Stories</h1>
+				<p>
+					Discover compelling narratives of triumph, adversity, and the human spirit. Each story here represents
+					moments that shaped lives and left lasting legacies.
+				</p>
+			</div>
+
+			<div class="posts-section">
+				<h2>Latest Stories</h2>
+				<p>Explore our most recent narratives</p>
+				<div class="posts-grid">
+					{
+						latestPosts.map((post) => (
+							<article class="post-card">
+								{post.data.heroImage && (
+									<img src={post.data.heroImage} alt={post.data.title} class="post-image" />
+								)}
+								<div class="post-content">
+									<time class="post-date">
+										<FormattedDate date={post.data.pubDate} />
+									</time>
+									<h3>{post.data.title}</h3>
+									<p class="post-description">{post.data.description}</p>
+									<a href={`/blog/${post.id}`} class="post-link">
+										Read More →
+									</a>
+								</div>
+							</article>
+						))
+					}
+				</div>
+			</div>
+
+			<div class="archive-link">
+				<a href="/blog">View All Stories</a>
+			</div>
 		</main>
 		<Footer />
 	</body>
