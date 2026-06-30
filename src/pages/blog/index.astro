@@ -108,6 +108,32 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 			let activeTag = '';
 			let currentPage = 1;
 
+			function readParams() {
+				const params = new URLSearchParams(window.location.search);
+				search.value = params.get('q') ?? '';
+				activeTag = params.get('tag') ?? '';
+				currentPage = Math.max(1, Number(params.get('page') ?? 1));
+
+				tagBtns.forEach((btn) => {
+					if (btn.dataset.tag === activeTag) {
+						btn.classList.add('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white');
+					} else {
+						btn.classList.remove('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white');
+					}
+				});
+			}
+
+			function updateParams() {
+				const params = new URLSearchParams();
+				if (search.value) params.set('q', search.value);
+				if (activeTag) params.set('tag', activeTag);
+				if (currentPage > 1) params.set('page', String(currentPage));
+
+				const qs = params.toString().replace(/\+/g, '%20');
+				const url = qs ? `?${qs}` : window.location.pathname;
+				history.replaceState(null, '', url);
+			}
+
 			function getFilteredPosts() {
 				const query = search.value.toLowerCase();
 				return allPosts.filter((li) => {
@@ -138,6 +164,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 
 				noResults.classList.toggle('hidden', filtered.length > 0);
 				renderPagination(totalPages);
+				updateParams();
 			}
 
 			function renderPagination(totalPages: number) {
@@ -203,6 +230,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 				});
 			});
 
+			readParams();
 			render();
 		</script>
 	</body>
