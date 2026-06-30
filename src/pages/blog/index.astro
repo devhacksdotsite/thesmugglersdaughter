@@ -182,8 +182,8 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 			clearFilters.addEventListener('click', () => {
 				search.value = '';
 				activeTag = '';
+				tagBtns.forEach((b) => b.classList.remove('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white'));
 				currentPage = 1;
-				tagBtns.forEach((b) => b.classList.remove('border-brand', 'text-brand', 'dark:border-white', 'dark:text-white'));
 				render();
 			});
 
@@ -192,11 +192,11 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 					const tag = btn.dataset.tag ?? '';
 					if (activeTag === tag) {
 						activeTag = '';
-						btn.classList.remove('border-brand', 'text-brand', 'dark:border-white', 'dark:text-white');
+						btn.classList.remove('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white');
 					} else {
-						tagBtns.forEach((b) => b.classList.remove('border-brand', 'text-brand', 'dark:border-white', 'dark:text-white'));
+						tagBtns.forEach((b) => b.classList.remove('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white'));
 						activeTag = tag;
-						btn.classList.add('border-brand', 'text-brand', 'dark:border-white', 'dark:text-white');
+						btn.classList.add('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white');
 					}
 					currentPage = 1;
 					render();
