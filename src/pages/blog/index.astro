@@ -10,6 +10,8 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 ---
 
 <!doctype html>
@@ -20,11 +22,52 @@ const posts = (await getCollection('blog')).sort(
 	<body>
 		<Header />
 		<main class="mx-auto max-w-4xl px-4 py-10">
-			<ul class="grid gap-8 md:grid-cols-2">
+			<!-- Search & Filter -->
+			<div class="mb-8 space-y-4">
+				<div class="relative">
+					<input
+						id="search"
+						type="text"
+						placeholder="Search posts..."
+						class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-brand outline-none transition focus:border-brand-light dark:border-gray-700 dark:bg-surface-dark dark:text-white"
+					/>
+					<button
+						id="clear-search"
+						class="absolute right-3 top-1/2 hidden -translate-y-1/2 text-muted hover:text-brand dark:hover:text-white"
+						aria-label="Clear search"
+					>
+						<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+					</button>
+				</div>
+				<div class="flex flex-wrap items-center gap-2">
+					<span class="text-xs font-medium text-muted">Filter:</span>
+					{allTags.map((tag) => (
+						<button
+							data-tag={tag}
+							class="tag-btn rounded-full border border-gray-200 px-3 py-1 text-xs font-medium text-muted transition-all hover:border-brand hover:text-brand dark:border-gray-700 dark:hover:border-white dark:hover:text-white"
+						>
+							{tag}
+						</button>
+					))}
+					<button
+						id="clear-filters"
+						class="hidden rounded-full px-3 py-1 text-xs font-medium text-muted underline underline-offset-2 hover:text-brand dark:hover:text-white"
+					>
+						Clear all
+					</button>
+				</div>
+			</div>
+
+			<ul id="post-list" class="grid gap-8 md:grid-cols-2">
 				{
 					posts.map((post, i) => (
-						<li class:list={[i === 0 && 'md:col-span-2']}>
-							<a href={`/blog/${post.id}/`} class="group block no-underline">
+						<li
+							class:list={[i === 0 && 'md:col-span-2']}
+							data-title={post.data.title.toLowerCase()}
+							data-description={(post.data.description ?? '').toLowerCase()}
+							data-tags={(post.data.tags ?? []).join(',')}
+						>
+							<a href={`/blog/${post.id}/`} class="group block rounded-xl p-4 no-underline transition-all hover:-translate-y-1 hover:shadow-lg">
 								{post.data.heroImage && (
 									<Image
 										width={720}
@@ -37,7 +80,8 @@ const posts = (await getCollection('blog')).sort(
 								<h4 class="text-lg font-semibold text-brand transition group-hover:text-brand-light dark:text-white">
 									{post.data.title}
 								</h4>
-								<p class="text-sm text-muted">
+								<p class="mt-1 text-sm text-muted line-clamp-2">{post.data.description}</p>
+								<p class="mt-2 text-sm text-muted">
 									<FormattedDate date={post.data.pubDate} />
 								</p>
 							</a>
@@ -45,7 +89,149 @@ const posts = (await getCollection('blog')).sort(
 					))
 				}
 			</ul>
+			<p id="no-results" class="mt-8 hidden text-center text-muted">No posts found.</p>
+
+			<!-- Pagination -->
+			<nav id="pagination" class="mt-10 flex items-center justify-center gap-2" aria-label="Pagination"></nav>
 		</main>
 		<Footer />
+
+		<script>
+			const PAGE_SIZE = 6;
+			const search = document.getElementById('search') as HTMLInputElement;
+			const clearSearch = document.getElementById('clear-search')!;
+			const clearFilters = document.getElementById('clear-filters')!;
+			const allPosts = Array.from(document.querySelectorAll<HTMLElement>('#post-list li'));
+			const noResults = document.getElementById('no-results')!;
+			const pagination = document.getElementById('pagination')!;
+			const tagBtns = document.querySelectorAll<HTMLButtonElement>('.tag-btn');
+			let activeTag = '';
+			let currentPage = 1;
+
+			function readParams() {
+				const params = new URLSearchParams(window.location.search);
+				search.value = params.get('q') ?? '';
+				activeTag = params.get('tag') ?? '';
+				currentPage = Math.max(1, Number(params.get('page') ?? 1));
+
+				tagBtns.forEach((btn) => {
+					if (btn.dataset.tag === activeTag) {
+						btn.classList.add('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white');
+					} else {
+						btn.classList.remove('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white');
+					}
+				});
+			}
+
+			function updateParams() {
+				const params = new URLSearchParams();
+				if (search.value) params.set('q', search.value);
+				if (activeTag) params.set('tag', activeTag);
+				if (currentPage > 1) params.set('page', String(currentPage));
+
+				const qs = params.toString().replace(/\+/g, '%20');
+				const url = qs ? `?${qs}` : window.location.pathname;
+				history.replaceState(null, '', url);
+			}
+
+			function getFilteredPosts() {
+				const query = search.value.toLowerCase();
+				return allPosts.filter((li) => {
+					const title = li.dataset.title ?? '';
+					const desc = li.dataset.description ?? '';
+					const tags = li.dataset.tags ?? '';
+					const matchesSearch = !query || title.includes(query) || desc.includes(query);
+					const matchesTag = !activeTag || tags.split(',').includes(activeTag);
+					return matchesSearch && matchesTag;
+				});
+			}
+
+			function render() {
+				const query = search.value.toLowerCase();
+				clearSearch.classList.toggle('hidden', !query);
+				clearFilters.classList.toggle('hidden', !activeTag && !query);
+
+				const filtered = getFilteredPosts();
+				const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+				if (currentPage > totalPages) currentPage = totalPages;
+
+				const start = (currentPage - 1) * PAGE_SIZE;
+				const pageItems = filtered.slice(start, start + PAGE_SIZE);
+
+				allPosts.forEach((li) => {
+					li.style.display = pageItems.includes(li) ? '' : 'none';
+				});
+
+				noResults.classList.toggle('hidden', filtered.length > 0);
+				renderPagination(totalPages);
+				updateParams();
+			}
+
+			function renderPagination(totalPages: number) {
+				if (totalPages <= 1) {
+					pagination.innerHTML = '';
+					return;
+				}
+
+				const btnClass = 'rounded-md px-3 py-1 text-sm font-medium transition-colors';
+				const activeClass = 'bg-brand text-white dark:bg-white dark:text-brand';
+				const inactiveClass = 'text-muted hover:text-brand dark:hover:text-white';
+
+				let html = '';
+				if (currentPage > 1) {
+					html += `<button data-page="${currentPage - 1}" class="${btnClass} ${inactiveClass}">← Prev</button>`;
+				}
+				for (let i = 1; i <= totalPages; i++) {
+					html += `<button data-page="${i}" class="${btnClass} ${i === currentPage ? activeClass : inactiveClass}">${i}</button>`;
+				}
+				if (currentPage < totalPages) {
+					html += `<button data-page="${currentPage + 1}" class="${btnClass} ${inactiveClass}">Next →</button>`;
+				}
+				pagination.innerHTML = html;
+
+				pagination.querySelectorAll<HTMLButtonElement>('[data-page]').forEach((btn) => {
+					btn.addEventListener('click', () => {
+						currentPage = Number(btn.dataset.page);
+						render();
+						window.scrollTo({ top: 0, behavior: 'smooth' });
+					});
+				});
+			}
+
+			search.addEventListener('input', () => { currentPage = 1; render(); });
+
+			clearSearch.addEventListener('click', () => {
+				search.value = '';
+				currentPage = 1;
+				render();
+			});
+
+			clearFilters.addEventListener('click', () => {
+				search.value = '';
+				activeTag = '';
+				tagBtns.forEach((b) => b.classList.remove('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white'));
+				currentPage = 1;
+				render();
+			});
+
+			tagBtns.forEach((btn) => {
+				btn.addEventListener('click', () => {
+					const tag = btn.dataset.tag ?? '';
+					if (activeTag === tag) {
+						activeTag = '';
+						btn.classList.remove('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white');
+					} else {
+						tagBtns.forEach((b) => b.classList.remove('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white'));
+						activeTag = tag;
+						btn.classList.add('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white');
+					}
+					currentPage = 1;
+					render();
+				});
+			});
+
+			readParams();
+			render();
+		</script>
 	</body>
 </html>
