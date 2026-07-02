@@ -247,6 +247,9 @@ const latestPosts = posts.slice(0, 3);
 			.story-card {
 				display: block;
 				background: rgb(46, 68, 73);
+				background-size: cover;
+				background-position: center;
+				background-repeat: no-repeat;
 				color: white;
 				padding: 2rem 2.5rem;
 				border-radius: 12px;
@@ -265,6 +268,24 @@ const latestPosts = posts.slice(0, 3);
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
+				position: relative;
+				overflow: hidden;
+			}
+
+			.story-card::before {
+				content: '';
+				position: absolute;
+				inset: 0;
+				background: rgba(46, 68, 73, 0.6);
+				z-index: 1;
+				border-radius: 12px;
+				pointer-events: none;
+			}
+
+			.story-card h3,
+			.story-card p {
+				position: relative;
+				z-index: 2;
 			}
 
 			.story-card:hover {
@@ -463,11 +484,11 @@ const latestPosts = posts.slice(0, 3);
 			</div>
 
 			<div class="stories-container">
-				<a href="/blog" class="story-card">
+				<a href="/blog" class="story-card" style="background-image: url('https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/ryFFM2PahlMxJvflm1nc/media/68bb418c1ff6ea7b62f4df41.png');">
 					<h3>Smuggling Story</h3>
 					<p>Risk, power, and betrayal</p>
 				</a>
-				<a href="/blog" class="story-card">
+				<a href="/blog" class="story-card" style="background-image: url('https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/ryFFM2PahlMxJvflm1nc/media/68bb4899460af21778791eec.png');">
 					<h3>Surrogate Story</h3>
 					<p>Love, law, and legacy</p>
 				</a>
