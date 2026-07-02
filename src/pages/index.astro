@@ -235,6 +235,62 @@ const latestPosts = posts.slice(0, 3);
 				gap: 0.75rem;
 			}
 
+			.stories-container {
+				display: flex;
+				justify-content: center;
+				gap: 1rem;
+				flex-wrap: wrap;
+				margin: 3rem 0;
+				padding: 0;
+			}
+
+			.story-card {
+				display: block;
+				background: linear-gradient(135deg, #2337ff 0%, #1a25cc 100%);
+				color: white;
+				padding: 2rem 2.5rem;
+				border-radius: 12px;
+				text-decoration: none;
+				font-weight: 600;
+				font-size: 1rem;
+				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+				letter-spacing: 0.5px;
+				box-shadow: 0 8px 20px rgba(35, 55, 255, 0.25);
+				border: 1px solid transparent;
+				text-align: center;
+				flex: 1;
+				max-width: 350px;
+				min-height: 200px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.story-card:hover {
+				transform: translateY(-3px);
+				box-shadow: 0 15px 40px rgba(35, 55, 255, 0.35);
+				border-color: rgba(255, 255, 255, 0.2);
+			}
+
+			.story-card:active {
+				transform: translateY(-1px);
+			}
+
+			.story-card h3 {
+				margin: 0;
+				font-family: var(--font-display);
+				font-size: 1.5rem;
+				letter-spacing: -0.5px;
+			}
+
+			.story-card p {
+				margin: 0.75rem 0 0 0;
+				font-size: 0.9rem;
+				opacity: 0.95;
+				line-height: 1.6;
+			}
+
 			.dark body {
 				background: linear-gradient(135deg, #111827 0%, #0f172a 50%, #020617 100%);
 			}
@@ -404,6 +460,17 @@ const latestPosts = posts.slice(0, 3);
 						))
 					}
 				</div>
+			</div>
+
+			<div class="stories-container">
+				<a href="/blog" class="story-card">
+					<h3>Smuggling Story</h3>
+					<p>Risk, power, and betrayal</p>
+				</a>
+				<a href="/blog" class="story-card">
+					<h3>Surrogate Story</h3>
+					<p>Love, law, and legacy</p>
+				</a>
 			</div>
 
 			<div class="archive-link">
