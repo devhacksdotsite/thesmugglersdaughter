@@ -1,0 +1,77 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Watch the Trailer" description="Watch the official trailer for The Smuggler's Daughter" />
+		<style>
+			main {
+				padding: 3rem 1rem 4rem;
+			}
+
+			.trailer-page {
+				max-width: 980px;
+				margin: 0 auto;
+				text-align: center;
+			}
+
+			.trailer-page h1 {
+				font-size: 2.4rem;
+				margin-bottom: 0.75rem;
+			}
+
+			.trailer-page p {
+				max-width: 720px;
+				margin: 0 auto 2rem;
+				color: rgba(15, 18, 25, 0.7);
+				line-height: 1.7;
+			}
+
+			.video-shell {
+				position: relative;
+				padding-bottom: 56.25%;
+				height: 0;
+				overflow: hidden;
+				border-radius: 24px;
+				box-shadow: 0 20px 50px rgba(15, 18, 25, 0.12);
+				background: #0f1219;
+			}
+
+			.video-shell iframe {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				border: 0;
+			}
+
+			.dark .trailer-page p {
+				color: rgba(255, 255, 255, 0.72);
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="trailer-page">
+				<h1>Watch the Trailer</h1>
+				<p>Step into the story with the official trailer for The Smuggler's Daughter.</p>
+				<div class="video-shell">
+					<iframe
+						src="https://fast.wistia.net/embed/iframe/wu5aqu6ufe?version=v1&autoplay=1&silentAutoPlay=allow"
+						allow="autoplay"
+						title="The Smuggler's Daughter trailer"
+						allowfullscreen
+						loading="lazy"
+					></iframe>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
