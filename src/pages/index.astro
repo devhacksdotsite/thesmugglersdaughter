@@ -245,22 +245,13 @@ const latestPosts = posts.slice(0, 3);
 			}
 
 			.story-card {
-				display: block;
-				background: rgb(46, 68, 73);
 				background-size: cover;
 				background-position: center;
 				background-repeat: no-repeat;
-				color: white;
 				padding: 2rem 2.5rem;
-				border-radius: 12px;
+				border-radius: 0.5rem;
 				text-decoration: none;
-				font-weight: 600;
-				font-size: 1rem;
-				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-				letter-spacing: 0.5px;
-				box-shadow: 0 8px 20px rgba(46, 68, 73, 0.3);
 				border: 1px solid transparent;
-				text-align: center;
 				flex: 1;
 				max-width: 350px;
 				min-height: 200px;
@@ -270,6 +261,7 @@ const latestPosts = posts.slice(0, 3);
 				align-items: center;
 				position: relative;
 				overflow: hidden;
+				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 			}
 
 			.story-card::before {
@@ -278,7 +270,7 @@ const latestPosts = posts.slice(0, 3);
 				inset: 0;
 				background: rgba(46, 68, 73, 0.6);
 				z-index: 1;
-				border-radius: 12px;
+				border-radius: 0.5rem;
 				pointer-events: none;
 			}
 
@@ -286,16 +278,7 @@ const latestPosts = posts.slice(0, 3);
 			.story-card p {
 				position: relative;
 				z-index: 2;
-			}
-
-			.story-card:hover {
-				transform: translateY(-3px);
-				box-shadow: 0 15px 40px rgba(46, 68, 73, 0.4);
-				border-color: rgba(255, 255, 255, 0.2);
-			}
-
-			.story-card:active {
-				transform: translateY(-1px);
+				color: white;
 			}
 
 			.story-card h3 {
@@ -303,6 +286,7 @@ const latestPosts = posts.slice(0, 3);
 				font-family: var(--font-display);
 				font-size: 1.5rem;
 				letter-spacing: -0.5px;
+				font-weight: 600;
 			}
 
 			.story-card p {
@@ -310,6 +294,25 @@ const latestPosts = posts.slice(0, 3);
 				font-size: 0.9rem;
 				opacity: 0.95;
 				line-height: 1.6;
+				font-size: 1rem;
+			}
+
+			.story-card:hover {
+				transform: translateY(-3px);
+				box-shadow: 0 15px 40px rgba(46, 68, 73, 0.4);
+			}
+
+			.story-card:active {
+				transform: translateY(-1px);
+			}
+
+			.dark .story-card h3,
+			.dark .story-card p {
+				color: white;
+			}
+
+			.dark .story-card:hover {
+				box-shadow: 0 20px 50px rgba(46, 68, 73, 0.5);
 			}
 
 			.dark body {
