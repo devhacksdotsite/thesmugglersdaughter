@@ -9,10 +9,12 @@ import Header from '../components/Header.astro';
 type Props = CollectionEntry<'blog'>['data'] & {
 	readingTime?: number;
 	relatedPosts?: CollectionEntry<'blog'>[];
+	headings?: { depth: number; slug: string; text: string }[];
 };
 
-const { title, description, pubDate, updatedDate, heroImage, tags, readingTime, relatedPosts } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags, readingTime, relatedPosts, headings } = Astro.props;
 const url = Astro.url.href;
+const tocHeadings = (headings ?? []).filter((h) => h.depth <= 3);
 ---
 
 <html lang="en">
@@ -57,6 +59,23 @@ const url = Astro.url.href;
 					)}
 				</header>
 				<div class="prose max-w-none text-brand-light dark:text-gray-300">
+					{tocHeadings.length > 2 && (
+						<nav class="not-prose mb-8 rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+							<p class="mb-2 text-sm font-semibold text-brand dark:text-white">Table of Contents</p>
+							<ul class="space-y-1">
+								{tocHeadings.map((h) => (
+									<li style={`padding-left: ${(h.depth - 1) * 0.75}rem`}>
+										<a
+											href={`#${h.slug}`}
+											class="text-sm text-muted no-underline transition-colors hover:text-brand dark:hover:text-white"
+										>
+											{h.text}
+										</a>
+									</li>
+								))}
+							</ul>
+						</nav>
+					)}
 					<slot />
 				</div>
 
