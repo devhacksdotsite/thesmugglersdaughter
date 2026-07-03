@@ -6,9 +6,10 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data'] & { readingTime?: number };
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags, readingTime } = Astro.props;
+const url = Astro.url.href;
 ---
 
 <html lang="en">
@@ -17,6 +18,9 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 	</head>
 
 	<body>
+		<!-- Reading progress bar -->
+		<div id="progress-bar" class="fixed top-0 left-0 z-[100] h-1 bg-brand transition-all dark:bg-white" style="width: 0%"></div>
+
 		<Header />
 		<main class="mx-auto max-w-3xl px-4 py-10">
 			<article>
@@ -26,19 +30,110 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 					</div>
 				)}
 				<header class="mb-8 text-center">
-					<p class="text-sm text-muted">
+					<div class="flex items-center justify-center gap-2 text-sm text-muted">
 						<FormattedDate date={pubDate} />
 						{updatedDate && (
 							<span class="italic"> · Updated <FormattedDate date={updatedDate} /></span>
 						)}
-					</p>
+						{readingTime && (
+							<span> · {readingTime} min read</span>
+						)}
+					</div>
 					<h1 class="mt-2 text-3xl font-bold tracking-tight text-brand dark:text-white md:text-4xl">{title}</h1>
+					{tags && tags.length > 0 && (
+						<div class="mt-4 flex flex-wrap justify-center gap-2">
+							{tags.map((tag) => (
+								<a
+									href={`/blog?tag=${encodeURIComponent(tag)}`}
+									class="rounded-full border border-gray-200 px-3 py-1 text-xs font-medium text-muted no-underline transition-all hover:border-brand hover:text-brand dark:border-gray-700 dark:hover:border-white dark:hover:text-white"
+								>
+									{tag}
+								</a>
+							))}
+						</div>
+					)}
 				</header>
 				<div class="prose max-w-none text-brand-light dark:text-gray-300">
 					<slot />
 				</div>
+
+				<!-- Share buttons -->
+				<div class="mt-10 border-t border-gray-200 pt-6 dark:border-gray-700">
+					<p class="mb-3 text-sm font-medium text-muted">Share this post</p>
+					<div class="flex gap-3">
+						<a
+							href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`}
+							target="_blank"
+							rel="noopener"
+							class="rounded-md border border-gray-200 p-2 text-muted transition-all hover:border-brand hover:text-brand dark:border-gray-700 dark:hover:border-white dark:hover:text-white"
+							aria-label="Share on X"
+						>
+							<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+						</a>
+						<a
+							href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`}
+							target="_blank"
+							rel="noopener"
+							class="rounded-md border border-gray-200 p-2 text-muted transition-all hover:border-brand hover:text-brand dark:border-gray-700 dark:hover:border-white dark:hover:text-white"
+							aria-label="Share on Facebook"
+						>
+							<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+						</a>
+						<button
+							id="copy-link"
+							class="rounded-md border border-gray-200 p-2 text-muted transition-all hover:border-brand hover:text-brand dark:border-gray-700 dark:hover:border-white dark:hover:text-white"
+							aria-label="Copy link"
+							data-url={url}
+						>
+							<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+						</button>
+					</div>
+				</div>
 			</article>
 		</main>
+
+		<!-- Back to top button -->
+		<button
+			id="back-to-top"
+			class="fixed bottom-6 right-6 z-50 hidden rounded-full bg-brand p-3 text-white shadow-lg transition-all hover:bg-brand-light dark:bg-white dark:text-brand dark:hover:bg-gray-200"
+			aria-label="Back to top"
+		>
+			<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+		</button>
+
 		<Footer />
+
+		<script>
+			// Reading progress bar
+			const progressBar = document.getElementById('progress-bar')!;
+			function updateProgress() {
+				const scrollTop = window.scrollY;
+				const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+				const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+				progressBar.style.width = `${progress}%`;
+			}
+			window.addEventListener('scroll', updateProgress, { passive: true });
+
+			// Back to top
+			const backToTop = document.getElementById('back-to-top')!;
+			function toggleBackToTop() {
+				backToTop.classList.toggle('hidden', window.scrollY < 300);
+			}
+			window.addEventListener('scroll', toggleBackToTop, { passive: true });
+			backToTop.addEventListener('click', () => {
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+			});
+
+			// Copy link
+			const copyBtn = document.getElementById('copy-link') as HTMLButtonElement;
+			copyBtn?.addEventListener('click', async () => {
+				const url = copyBtn.dataset.url ?? window.location.href;
+				await navigator.clipboard.writeText(url);
+				const svg = copyBtn.querySelector('svg')!;
+				const originalPath = svg.innerHTML;
+				svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>';
+				setTimeout(() => { svg.innerHTML = originalPath; }, 2000);
+			});
+		</script>
 	</body>
 </html>
