@@ -6,9 +6,12 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
-type Props = CollectionEntry<'blog'>['data'] & { readingTime?: number };
+type Props = CollectionEntry<'blog'>['data'] & {
+	readingTime?: number;
+	relatedPosts?: CollectionEntry<'blog'>[];
+};
 
-const { title, description, pubDate, updatedDate, heroImage, tags, readingTime } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags, readingTime, relatedPosts } = Astro.props;
 const url = Astro.url.href;
 ---
 
@@ -89,6 +92,34 @@ const url = Astro.url.href;
 						</button>
 					</div>
 				</div>
+
+				<!-- Related posts -->
+				{relatedPosts && relatedPosts.length > 0 && (
+					<div class="mt-10 border-t border-gray-200 pt-8 dark:border-gray-700">
+						<h3 class="mb-6 text-lg font-semibold text-brand dark:text-white">Related Posts</h3>
+						<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+							{relatedPosts.map((related) => (
+								<a href={`/blog/${related.id}/`} class="group block rounded-lg p-3 no-underline transition-all hover:-translate-y-0.5 hover:shadow-md">
+									{related.data.heroImage && (
+										<Image
+											width={360}
+											height={180}
+											src={related.data.heroImage}
+											alt=""
+											class="mb-2 w-full rounded-lg"
+										/>
+									)}
+									<h4 class="text-sm font-semibold text-brand transition group-hover:text-brand-light dark:text-white">
+										{related.data.title}
+									</h4>
+									<p class="mt-1 text-xs text-muted">
+										<FormattedDate date={related.data.pubDate} />
+									</p>
+								</a>
+							))}
+						</div>
+					</div>
+				)}
 			</article>
 		</main>
 

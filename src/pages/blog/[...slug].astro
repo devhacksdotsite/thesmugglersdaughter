@@ -6,18 +6,30 @@ export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	return posts.map((post) => ({
 		params: { slug: post.id },
-		props: post,
+		props: { post, allPosts: posts },
 	}));
 }
-type Props = CollectionEntry<'blog'>;
 
-const post = Astro.props;
+const { post, allPosts } = Astro.props;
 const { Content } = await render(post);
 
 const wordCount = post.body?.split(/\s+/).length ?? 0;
 const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+// Find related posts by matching tags
+const currentTags = post.data.tags ?? [];
+const relatedPosts = allPosts
+	.filter((p) => p.id !== post.id)
+	.map((p) => {
+		const shared = (p.data.tags ?? []).filter((t) => currentTags.includes(t)).length;
+		return { post: p, score: shared };
+	})
+	.filter((p) => p.score > 0)
+	.sort((a, b) => b.score - a.score || b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf())
+	.slice(0, 3)
+	.map((p) => p.post);
 ---
 
-<BlogPost {...post.data} readingTime={readingTime}>
+<BlogPost {...post.data} readingTime={readingTime} relatedPosts={relatedPosts}>
 	<Content />
 </BlogPost>
