@@ -7,6 +7,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import AuthorCard from '../components/AuthorCard.astro';
 import Newsletter from '../components/Newsletter.astro';
+import Lightbox from '../components/Lightbox.astro';
 
 type Props = CollectionEntry<'blog'>['data'] & {
 	readingTime?: number;
@@ -160,6 +161,7 @@ const tocHeadings = (headings ?? []).filter((h) => h.depth <= 3);
 		</button>
 
 		<Footer />
+		<Lightbox />
 
 		<script>
 			// Reading progress bar

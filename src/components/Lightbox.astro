@@ -1,0 +1,50 @@
+---
+---
+
+<!-- Lightbox overlay -->
+<div
+	id="lightbox"
+	class="fixed inset-0 z-[200] hidden cursor-zoom-out items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+>
+	<button
+		id="lightbox-close"
+		class="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
+		aria-label="Close lightbox"
+	>
+		<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+	</button>
+	<img id="lightbox-img" class="max-h-[90vh] max-w-[90vw] rounded-lg object-contain" src="" alt="" />
+</div>
+
+<script>
+	const lightbox = document.getElementById('lightbox')!;
+	const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+	const lightboxClose = document.getElementById('lightbox-close')!;
+
+	// Make all images in article clickable
+	document.querySelectorAll('article img').forEach((img) => {
+		const el = img as HTMLImageElement;
+		el.style.cursor = 'zoom-in';
+		el.addEventListener('click', () => {
+			lightboxImg.src = el.src;
+			lightboxImg.alt = el.alt;
+			lightbox.classList.remove('hidden');
+			lightbox.classList.add('flex');
+			document.body.style.overflow = 'hidden';
+		});
+	});
+
+	function closeLightbox() {
+		lightbox.classList.add('hidden');
+		lightbox.classList.remove('flex');
+		document.body.style.overflow = '';
+	}
+
+	lightboxClose.addEventListener('click', closeLightbox);
+	lightbox.addEventListener('click', (e) => {
+		if (e.target === lightbox) closeLightbox();
+	});
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) closeLightbox();
+	});
+</script>
