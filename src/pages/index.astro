@@ -38,13 +38,37 @@ const latestPosts = posts.slice(0, 3);
 			}
 
 			main {
+				width: 90%;
+				max-width: 1200px;
+				margin: 0 auto;
 				padding-top: 2rem !important;
+			}
+
+			@keyframes fadeIn {
+				from { opacity: 0; transform: translateY(10px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
+			@keyframes fadeInUp {
+				from { opacity: 0; transform: translateY(20px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
+			.hero {
+				animation: fadeIn 0.8s ease-out both;
+			}
+			.posts-section {
+				animation: fadeInUp 0.8s ease-out 0.2s both;
+			}
+			.stories-container {
+				animation: fadeInUp 0.8s ease-out 0.4s both;
+			}
+			.archive-link {
+				animation: fadeInUp 0.8s ease-out 0.6s both;
 			}
 
 			.hero {
 				background: linear-gradient(135deg, #0f1219 0%, #1a1f2e 50%, #2d1b4e 100%);
 				padding: 5rem 2rem 4rem 2rem;
-				margin: -3em -1em 4rem -1em;
+				margin: 2rem -1em 4rem -1em;
 				text-align: center;
 				border-bottom: 1px solid rgba(35, 55, 255, 0.3);
 				position: relative;
@@ -504,6 +528,25 @@ const latestPosts = posts.slice(0, 3);
 				</div>
 			</div>
 		</main>
+		<!-- Back to top button -->
+		<button
+			id="back-to-top"
+			class="fixed bottom-6 right-6 z-50 hidden rounded-full bg-brand p-3 text-white shadow-lg transition-all hover:bg-brand-light dark:bg-white dark:text-brand dark:hover:bg-gray-200"
+			aria-label="Back to top"
+		>
+			<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+		</button>
+
 		<Footer />
+
+		<script>
+			const backToTop = document.getElementById('back-to-top')!;
+			window.addEventListener('scroll', () => {
+				backToTop.classList.toggle('hidden', window.scrollY < 300);
+			}, { passive: true });
+			backToTop.addEventListener('click', () => {
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+			});
+		</script>
 	</body>
 </html>
