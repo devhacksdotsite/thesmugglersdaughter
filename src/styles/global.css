@@ -3,7 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-	--font-sans: var(--font-atkinson), ui-sans-serif, system-ui, sans-serif;
+	--font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 	--color-brand: #1f2937;
 	--color-brand-light: #374151;
 	--color-surface: #ffffff;
