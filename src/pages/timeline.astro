@@ -1,0 +1,243 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+
+const events = [
+	{
+		year: '1980s',
+		title: 'Life on the Coast',
+		description: 'John enters the world of smuggling along the California coastline. Hidden coves, foggy harbors, and fast money define a dangerous lifestyle.',
+		tag: 'smuggling',
+	},
+	{
+		year: '1990',
+		title: 'The Downfall',
+		description: 'Years of living on the edge catch up. The consequences of a criminal life become impossible to outrun.',
+		tag: 'smuggling',
+	},
+	{
+		year: '1993',
+		title: 'A New Career',
+		description: 'With no prior experience, John starts over in the legal field. A decision that would reshape his entire future.',
+		tag: 'career',
+	},
+	{
+		year: '1994',
+		title: 'The Surrogacy Agreement',
+		description: 'John and Luanne Buzzanca arrange for an embryo from anonymous donors to be implanted in a surrogate — a decision that would make legal history.',
+		tag: 'surrogacy',
+	},
+	{
+		year: '1995',
+		title: 'Divorce & Birth',
+		description: 'John files for divorce one month before Jaycee is born. The question of legal parenthood ignites a precedent-setting custody battle.',
+		tag: 'surrogacy',
+	},
+	{
+		year: '1998',
+		title: 'Landmark Ruling',
+		description: 'The California Court of Appeal rules in In re Marriage of Buzzanca, establishing that intent determines parenthood — not biology.',
+		tag: 'surrogacy',
+	},
+	{
+		year: '1999',
+		title: 'Saddleback College',
+		description: 'John earns his A.A. degree while working full-time and paying court-ordered child support. The first milestone on a long road back.',
+		tag: 'career',
+	},
+	{
+		year: '2005',
+		title: 'Chapman University',
+		description: "A bachelor's degree earned against all odds — balancing work, school, and wage garnishment for over a decade.",
+		tag: 'career',
+	},
+	{
+		year: '2014',
+		title: 'Not My Daughter',
+		description: 'John publishes his first memoir exploring the surrogacy case and its aftermath. The story begins to reach a wider audience.',
+		tag: 'writing',
+	},
+	{
+		year: '2024',
+		title: "The Smuggler's Daughter",
+		description: 'The full story is told. Smuggling, surrogacy, and redemption — a cautionary tale published for the world to read.',
+		tag: 'writing',
+	},
+];
+
+const tagColors: Record<string, string> = {
+	smuggling: 'fill-red-500',
+	surrogacy: 'fill-purple-500',
+	career: 'fill-blue-500',
+	writing: 'fill-green-500',
+};
+
+const tagLabels: Record<string, string> = {
+	smuggling: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300',
+	surrogacy: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
+	career: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
+	writing: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
+};
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Timeline — The Smuggler's Daughter" description="The timeline of John Buzzanca's journey — from smuggling to surrogacy to redemption." />
+	</head>
+	<body>
+		<Header />
+		<main class="mx-auto w-[90%] max-w-3xl py-16">
+			<header class="mb-12 text-center">
+				<h1 class="text-3xl font-bold tracking-tight text-brand dark:text-white md:text-4xl">The Timeline</h1>
+				<p class="mt-2 text-muted">The incredible journey — decade by decade</p>
+			</header>
+
+			<div class="events">
+				{events.map((event, i) => (
+					<div class:list={['event', event.tag]}>
+						<svg class:list={['marker', tagColors[event.tag]]} xmlns="http://www.w3.org/2000/svg" width="14" height="14">
+							<circle cx="7" cy="7" r="7" />
+						</svg>
+						<div class="content">
+							<time>{event.year}</time>
+							<h3>{event.title}</h3>
+							<p>{event.description}</p>
+							<span class:list={['tag-label', tagLabels[event.tag]]}>
+								{event.tag}
+							</span>
+						</div>
+					</div>
+				))}
+			</div>
+		</main>
+		<Footer />
+
+		<style>
+			.events {
+				position: relative;
+				display: flex;
+				flex-direction: column;
+				row-gap: 2rem;
+				margin-block: 1em;
+			}
+
+			.events::before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 100%;
+				width: 2px;
+				background: linear-gradient(to bottom, transparent, var(--color-muted, #6b7280) 5%, var(--color-muted, #6b7280) 95%, transparent);
+			}
+
+			.event {
+				display: flex;
+				align-items: baseline;
+			}
+
+			.event .marker {
+				position: relative;
+				left: -7px;
+				flex-shrink: 0;
+			}
+
+			.event .content {
+				padding-left: 1rem;
+			}
+
+			.event .content time {
+				font-size: 0.8rem;
+				font-weight: 700;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+				color: var(--color-muted, #6b7280);
+			}
+
+			.event .content h3 {
+				font-size: 1.1rem;
+				font-weight: 600;
+				margin-top: 0.15rem;
+				color: var(--color-brand, #1f2937);
+			}
+
+			:global(.dark) .event .content h3 {
+				color: #fff;
+			}
+
+			.event .content p {
+				font-size: 0.9rem;
+				margin-top: 0.25rem;
+				color: var(--color-muted, #6b7280);
+				line-height: 1.6;
+			}
+
+			.tag-label {
+				display: inline-block;
+				margin-top: 0.5rem;
+				padding: 0.15rem 0.5rem;
+				border-radius: 9999px;
+				font-size: 0.7rem;
+				font-weight: 500;
+			}
+
+			/* Responsive: center line, alternate sides */
+			@media (min-width: 700px) {
+				.events::before {
+					left: 50%;
+				}
+
+				.event .content {
+					width: 50%;
+					text-align: right;
+					padding-inline: 1.5rem;
+					padding-left: 0;
+				}
+
+				.event .marker {
+					order: 1;
+					left: -7px;
+				}
+
+				/* Move even events to the right */
+				.event:nth-child(even) {
+					flex-direction: row-reverse;
+				}
+
+				.event:nth-child(even) .content {
+					text-align: left;
+					padding-inline: 1.5rem;
+					padding-right: 0;
+				}
+
+				.event:nth-child(even) .marker {
+					left: 7px;
+				}
+			}
+
+			/* Staggered animation */
+			.event {
+				opacity: 0;
+				animation: fadeIn 0.4s ease-out forwards;
+			}
+
+			@keyframes fadeIn {
+				from { opacity: 0; transform: translateY(10px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
+
+			.event:nth-child(1) { animation-delay: 0.05s; }
+			.event:nth-child(2) { animation-delay: 0.1s; }
+			.event:nth-child(3) { animation-delay: 0.15s; }
+			.event:nth-child(4) { animation-delay: 0.2s; }
+			.event:nth-child(5) { animation-delay: 0.25s; }
+			.event:nth-child(6) { animation-delay: 0.3s; }
+			.event:nth-child(7) { animation-delay: 0.35s; }
+			.event:nth-child(8) { animation-delay: 0.4s; }
+			.event:nth-child(9) { animation-delay: 0.45s; }
+			.event:nth-child(10) { animation-delay: 0.5s; }
+		</style>
+	</body>
+</html>
