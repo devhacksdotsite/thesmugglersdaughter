@@ -66,11 +66,11 @@ const latestPosts = posts.slice(0, 3);
 			}
 
 			.hero {
-				background: linear-gradient(135deg, #0f1219 0%, #1a1f2e 50%, #2d1b4e 100%);
+				background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #3b3466 100%);
 				padding: 5rem 2rem 4rem 2rem;
 				margin: 2rem -1em 4rem -1em;
 				text-align: center;
-				border-bottom: 1px solid rgba(35, 55, 255, 0.3);
+				border-bottom: 1px solid rgba(99, 102, 241, 0.2);
 				position: relative;
 				overflow: hidden;
 			}
@@ -82,7 +82,7 @@ const latestPosts = posts.slice(0, 3);
 				right: -10%;
 				width: 500px;
 				height: 500px;
-				background: radial-gradient(circle, rgba(35, 55, 255, 0.1) 0%, transparent 70%);
+				background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
 				border-radius: 50%;
 				z-index: 0;
 			}
@@ -122,6 +122,36 @@ const latestPosts = posts.slice(0, 3);
 				line-height: 1.8;
 				font-weight: 400;
 				letter-spacing: 0.3px;
+			}
+
+			@keyframes heroFadeUp {
+				from { opacity: 0; transform: translateY(20px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
+
+			.hero-line {
+				opacity: 0;
+				animation: heroFadeUp 0.8s ease-out forwards;
+			}
+
+			.hero-line-1 {
+				animation-delay: 0.2s;
+				font-size: 1rem;
+				text-transform: lowercase;
+				letter-spacing: 2px;
+				color: rgba(255, 255, 255, 0.7);
+				margin-bottom: 0.5rem;
+			}
+
+			.hero-line-2 {
+				animation-delay: 0.6s;
+			}
+
+			.hero-line-3 {
+				animation-delay: 1s;
+				font-size: 1.25rem;
+				color: rgba(255, 255, 255, 0.9);
+				margin-top: 1rem;
 			}
 
 			.posts-section {
@@ -394,6 +424,68 @@ const latestPosts = posts.slice(0, 3);
 				box-shadow: 0 8px 20px rgba(35, 55, 255, 0.28);
 			}
 
+			.reviews-section {
+				margin-top: 4rem;
+				text-align: center;
+			}
+
+			.reviews-section h2 {
+				font-family: var(--font-display);
+				font-size: 2rem;
+				color: #0f1219;
+				margin-bottom: 2rem;
+				font-weight: 700;
+			}
+
+			.reviews-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+				gap: 1.5rem;
+			}
+
+			.reviews-grid blockquote {
+				background: white;
+				border: 1px solid rgba(35, 55, 255, 0.08);
+				border-radius: 12px;
+				padding: 1.5rem;
+				text-align: left;
+				margin: 0;
+				font-size: 1rem;
+				border-left: none;
+			}
+
+			.reviews-grid blockquote p {
+				color: rgba(15, 18, 25, 0.75);
+				font-style: italic;
+				line-height: 1.7;
+				margin: 0;
+			}
+
+			.reviews-grid cite {
+				display: block;
+				margin-top: 0.75rem;
+				font-size: 0.8rem;
+				color: rgba(15, 18, 25, 0.5);
+				font-style: normal;
+			}
+
+			.dark .reviews-section h2 {
+				color: #f9fafb;
+			}
+
+			.dark .reviews-grid blockquote {
+				background: rgba(17, 24, 39, 0.95);
+				border-color: rgba(255, 255, 255, 0.08);
+			}
+
+			.dark .reviews-grid blockquote p {
+				color: rgba(255, 255, 255, 0.75);
+			}
+
+			.dark .reviews-grid cite {
+				color: rgba(255, 255, 255, 0.5);
+			}
+
 			.archive-link {
 				text-align: center;
 				margin-top: 3rem;
@@ -474,11 +566,9 @@ const latestPosts = posts.slice(0, 3);
 		<Header />
 		<main>
 			<div class="hero">
-				<h1>The Smuggler's Daughter</h1>
-				<p>
-					Follow John Buzzanca's journey from dangerous coastlines to the courtroom, and explore the visual
-					story behind the book through a curated collection of images and the official trailer.
-				</p>
+				<p class="hero-line hero-line-1">discover the untold story of...</p>
+				<h1 class="hero-line hero-line-2">The Smuggler's Daughter</h1>
+				<p class="hero-line hero-line-3">The <strong>INCREDIBLE</strong> journey of John Buzzanca</p>
 			</div>
 
 			<div class="posts-section">
@@ -520,6 +610,21 @@ const latestPosts = posts.slice(0, 3);
 					<p>Love, law, and legacy</p>
 				</a>
 			</div>
+
+			<!-- Reviews -->
+			<section class="reviews-section">
+				<h2>What Readers Are Saying</h2>
+				<div class="reviews-grid">
+					<blockquote>
+						<p>"A gripping true story that keeps you turning pages. Buzzanca's honesty is refreshing and the legal drama is fascinating."</p>
+						<cite>— Amazon Reader</cite>
+					</blockquote>
+					<blockquote>
+						<p>"Part crime thriller, part courtroom drama. The surrogacy case alone is worth the read — I had no idea this happened."</p>
+						<cite>— Amazon Reader</cite>
+					</blockquote>
+				</div>
+			</section>
 
 			<div class="archive-link">
 				<div class="actions">
