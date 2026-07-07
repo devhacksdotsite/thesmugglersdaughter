@@ -1,0 +1,143 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+
+const title = `Surrogate Story | ${SITE_TITLE}`;
+const description = 'A compelling look at the surrogacy case that challenged law, biology, and the meaning of parenthood.';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+		<style>
+			:root {
+				--font-display: 'Playfair Display', serif;
+				--font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+			}
+
+			body {
+				font-family: var(--font-body);
+				background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 50%, #f0f0f5 100%);
+				color: #0f1219;
+				margin: 0;
+			}
+
+			main {
+				width: min(100%, 1120px);
+				max-width: calc(100% - 2.5rem);
+				margin: 0 auto;
+				padding: 2rem 0 4rem;
+			}
+
+			.hero {
+				background: linear-gradient(135deg, #0f1219 0%, #1a1f2e 50%, #2d1b4e 100%);
+				color: white;
+				padding: 4rem 2rem;
+				border-radius: 32px;
+				text-align: center;
+				margin-bottom: 2.5rem;
+			}
+
+			.hero h1 {
+				font-family: var(--font-display);
+				font-size: clamp(2.15rem, 3.6vw, 3rem);
+				margin: 0 0 1rem;
+				letter-spacing: -0.03em;
+			}
+
+			.hero p {
+				margin: 0 auto;
+				max-width: 720px;
+				font-size: 1.05rem;
+				line-height: 1.8;
+				color: rgba(255,255,255,0.85);
+			}
+
+			.content {
+				display: grid;
+				gap: 1.5rem;
+				grid-template-columns: 1.1fr 0.9fr;
+				align-items: start;
+			}
+
+			.panel {
+				background: rgba(255,255,255,0.94);
+				border: 1px solid rgba(35,55,255,0.08);
+				border-radius: 24px;
+				padding: 2rem;
+				box-shadow: 0 16px 40px rgba(15,18,25,0.08);
+			}
+
+			.panel h2 {
+				font-family: var(--font-display);
+				font-size: 1.45rem;
+				margin: 0 0 1rem;
+			}
+
+			.panel p {
+				font-size: 1rem;
+				line-height: 1.8;
+				color: rgba(15,18,25,0.78);
+				margin: 0 0 1rem;
+			}
+
+			.quote {
+				font-size: 1.05rem;
+				font-weight: 600;
+				color: #2337ff;
+				padding-left: 1rem;
+				border-left: 3px solid #2337ff;
+				margin-top: 1.2rem;
+			}
+
+			@media (max-width: 860px) {
+				.content {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="hero">
+				<h1>Surrogate Story</h1>
+				<p>
+					When love, law, and legacy collided, the case became more than a legal battle; it became
+					a defining moment about family, identity, and parenthood.
+				</p>
+			</section>
+
+			<section class="content">
+				<article class="panel">
+					<h2>Family, law, and legacy</h2>
+					<p>
+						What began as a bitter divorce and an emotionally charged dispute became a precedent-shaping
+						case that challenged the way America thinks about parenthood.
+					</p>
+					<p>
+						The question was simple and profound: who is a parent when biology and intention point in
+						different directions? The answer would reshape lives and define a new conversation about family.
+					</p>
+					<div class="quote">Love may be the foundation of family, but the law still has to decide who gets to call it home.</div>
+				</article>
+
+				<article class="panel">
+					<h2>Why it matters</h2>
+					<p>
+						This story explores the emotional and legal stakes behind one of the most consequential cases
+						of its time, revealing the human cost beneath the headlines.
+					</p>
+					<p>
+						It is a story about identity, intent, and the extraordinary ways people fight for the children
+						and futures they believe belong to them.
+					</p>
+				</article>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

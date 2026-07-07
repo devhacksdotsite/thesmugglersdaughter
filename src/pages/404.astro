@@ -1,0 +1,120 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+
+const title = `Page not found | ${SITE_TITLE}`;
+const description = 'The page you were looking for could not be found. Return home or browse the latest stories.';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+		<style>
+			:root {
+				--font-display: 'Playfair Display', serif;
+				--font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+			}
+
+			body {
+				font-family: var(--font-body);
+				background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 50%, #f0f0f5 100%);
+				min-height: 100vh;
+			}
+
+			main {
+				padding: 4rem 1rem 5rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.not-found {
+				max-width: 720px;
+				width: 100%;
+				padding: 3rem 2rem;
+				border-radius: 28px;
+				background: rgba(255, 255, 255, 0.9);
+				box-shadow: 0 20px 50px rgba(15, 18, 25, 0.08);
+				border: 1px solid rgba(35, 55, 255, 0.08);
+				text-align: center;
+			}
+
+			.eyebrow {
+				font-size: 0.8rem;
+				font-weight: 700;
+				letter-spacing: 0.2em;
+				text-transform: uppercase;
+				color: #2337ff;
+				margin-bottom: 1rem;
+			}
+
+			h1 {
+				font-family: var(--font-display);
+				font-size: clamp(2.2rem, 4vw, 3rem);
+				margin: 0 0 1rem;
+				color: #0f1219;
+				line-height: 1.1;
+			}
+
+			p {
+				font-size: 1rem;
+				line-height: 1.75;
+				color: rgba(15, 18, 25, 0.72);
+				margin: 0 auto 2rem;
+				max-width: 560px;
+			}
+
+			.actions {
+				display: flex;
+				justify-content: center;
+				gap: 1rem;
+				flex-wrap: wrap;
+			}
+
+			.button {
+				display: inline-block;
+				padding: 0.9rem 1.4rem;
+				border-radius: 999px;
+				text-decoration: none;
+				font-weight: 600;
+				transition: transform 0.2s ease, box-shadow 0.2s ease;
+			}
+
+			.button:hover {
+				transform: translateY(-2px);
+			}
+
+			.button.primary {
+				background: #0f1219;
+				color: white;
+				box-shadow: 0 10px 30px rgba(15, 18, 25, 0.15);
+			}
+
+			.button.secondary {
+				background: #f3f4f8;
+				color: #0f1219;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="not-found">
+				<p class="eyebrow">404 Error</p>
+				<h1>Page not found</h1>
+				<p>
+					The page you were looking for seems to have wandered off. Head back home or browse the
+					latest stories from the archive.
+				</p>
+				<div class="actions">
+					<a class="button primary" href="/">Return home</a>
+					<a class="button secondary" href="/blog/">Browse blog</a>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
