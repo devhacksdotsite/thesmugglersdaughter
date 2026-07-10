@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
@@ -579,7 +580,13 @@ const latestPosts = posts.slice(0, 3);
 						latestPosts.map((post) => (
 							<article class="post-card">
 								{post.data.heroImage && (
-									<img src={post.data.heroImage} alt={post.data.title} class="post-image" />
+									<Image
+										width={720}
+										height={360}
+										src={post.data.heroImage}
+										alt={post.data.title}
+										class="post-image"
+									/>
 								)}
 								<div class="post-content">
 									<time class="post-date">
