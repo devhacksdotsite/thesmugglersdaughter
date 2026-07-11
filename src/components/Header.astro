@@ -20,7 +20,7 @@ import HeaderLink from './HeaderLink.astro';
 					href="https://www.amazon.com/Smugglers-Daughter-Drugs-Surrogacy-Industry/dp/B0FLVXRFLX"
 					target="_blank"
 					rel="noopener"
-					class="btn-book rounded-md border px-4 py-2 text-sm font-semibold no-underline transition-colors"
+					class="btn-outline"
 				>
 					Buy the Book
 				</a>
@@ -66,32 +66,13 @@ import HeaderLink from './HeaderLink.astro';
 				href="https://www.amazon.com/Smugglers-Daughter-Drugs-Surrogacy-Industry/dp/B0FLVXRFLX"
 				target="_blank"
 				rel="noopener"
-				class="btn-book mt-2 rounded-md border px-4 py-2 text-center text-sm font-semibold no-underline transition-colors"
+				class="btn-outline mt-2 text-center"
 			>
 				Buy the Book
 			</a>
 		</div>
 	</div>
 </header>
-
-<style>
-	.btn-book {
-		border-color: var(--color-brand);
-		color: var(--color-brand);
-	}
-	.btn-book:hover {
-		background-color: var(--color-brand);
-		color: var(--color-surface);
-	}
-	:global(.dark) .btn-book {
-		border-color: var(--color-surface);
-		color: var(--color-surface);
-	}
-	:global(.dark) .btn-book:hover {
-		background-color: var(--color-surface);
-		color: var(--color-brand);
-	}
-</style>
 
 <script>
 	const toggle = document.getElementById('menu-toggle');
