@@ -93,6 +93,44 @@ const description = 'A compelling look at the surrogacy case that challenged law
 				margin-top: 1.2rem;
 			}
 
+			/* Dark mode for panels */
+			.dark .panel {
+				background: rgba(17,24,39,0.95);
+				border: 1px solid rgba(255,255,255,0.08);
+				box-shadow: 0 14px 40px rgba(2,6,23,0.6);
+			}
+
+			.dark .panel h2 {
+				color: #f9fafb;
+			}
+
+			.dark .panel p {
+				color: rgba(255,255,255,0.78);
+			}
+
+			.dark .quote {
+				color: #8db4ff;
+				border-left-color: rgba(139,180,255,0.18);
+				background: rgba(255,255,255,0.02);
+				padding-left: 1rem;
+			}
+
+			/* Prevent images from zooming in dark mode */
+			.panel img {
+				max-width: 100%;
+				height: auto;
+				object-fit: contain;
+				transform: none !important;
+				scale: 1 !important;
+				transition: none !important;
+			}
+
+			.dark .panel img {
+				transform: none !important;
+				scale: 1 !important;
+				filter: none !important;
+			}
+
 			@media (max-width: 860px) {
 				.content {
 					grid-template-columns: 1fr;
