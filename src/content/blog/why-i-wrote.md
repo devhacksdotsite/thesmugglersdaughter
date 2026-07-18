@@ -1,11 +1,15 @@
 ---
-title: "Why I Wrote The Smuggler's Daughter"
-description: "After years of silence, putting the story on paper felt like both a confession and a warning. This book isn't about glorifying the past — it's about making sure someone else can learn from it."
-pubDate: "Jun 15 2025"
+title: "Why I Wrote This Memoir"
+description: "For most of my early adult life, I had no desire or intention to tell this story. Not publicly, and certainly not in detail."
+pubDate: "Jul 17 2026"
 tags:
   - writing
   - personal
 heroImage: "../../assets/blog-placeholder-3.jpg"
 ---
 
-Every author has a reason for putting pen to paper. Mine wasn't fame or money. It was the nagging feeling that if I didn't tell this story honestly, someone else would tell it wrong.
+For most of my early adult life, I had no desire or intention to tell this story. Not publicly, and certainly not in detail.
+
+The events that shaped my period of my life—my involvement in drug smuggling during the 1980s and 1990s, and my role in a surrogacy case that created new legal precedent in 1998—were things I carried quietly. Some of it was painful. Some of it was misunderstood. Much of it was reduced to headlines or secondhand accounts that missed the truth.
+
+This story exists because time changes perspective—and because some stories don’t stay buried.

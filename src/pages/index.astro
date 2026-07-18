@@ -49,75 +49,71 @@ const latestPosts = posts.slice(0, 3);
 			}
 			.hero {
 				animation: fadeIn 0.8s ease-out both;
-			}
-			.posts-section {
-				animation: fadeInUp 0.8s ease-out 0.2s both;
-			}
-			.stories-container {
-				animation: fadeInUp 0.8s ease-out 0.4s both;
-			}
-			.archive-link {
-				animation: fadeInUp 0.8s ease-out 0.6s both;
-			}
-
-			.hero {
-				background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #3b3466 100%);
-				padding: 5rem 2rem 4rem 2rem;
+				background: linear-gradient(135deg, #ffffff 0%, rgba(15, 18, 25, 0.04) 100%);
+				padding: 6rem 2rem 5rem;
 				margin: 0 0 4rem;
 				text-align: center;
 				border-radius: 32px;
-				border-bottom: 1px solid rgba(35, 55, 255, 0.3);
+				border: 1px solid rgba(15, 18, 25, 0.08);
+				box-shadow: 0 20px 50px rgba(15, 18, 25, 0.08);
 				position: relative;
 				overflow: hidden;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				min-height: 640px;
 			}
 
 			.hero::before {
 				content: '';
 				position: absolute;
-				top: -50%;
-				right: -10%;
-				width: 500px;
-				height: 500px;
-				background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
-				border-radius: 50%;
+				inset: 0;
+				background: radial-gradient(circle at 50% 20%, rgba(15, 18, 25, 0.38), transparent 32%),
+					linear-gradient(180deg, rgba(15, 18, 25, 0.42), rgba(15, 18, 25, 0.6));
+				pointer-events: none;
 				z-index: 0;
 			}
 
-			.hero::after {
-				content: '';
+			.hero-video {
 				position: absolute;
-				bottom: -30%;
-				left: -10%;
-				width: 400px;
-				height: 400px;
-				background: radial-gradient(circle, rgba(93, 39, 209, 0.08) 0%, transparent 70%);
-				border-radius: 50%;
+				inset: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
 				z-index: 0;
+				opacity: 0.88;
+				filter: saturate(1.05) contrast(1.08) brightness(0.8);
 			}
 
-			.hero > * {
+			.hero > *:not(.hero-video) {
 				position: relative;
 				z-index: 1;
 			}
 
 			.hero h1 {
 				font-family: var(--font-display);
-				font-size: 3.5rem;
+				font-size: clamp(3.25rem, 5vw, 4.5rem);
 				color: #ffffff;
-				margin-bottom: 0.75rem;
-				font-weight: 800;
-				letter-spacing: -2px;
-				line-height: 1.1;
+				margin: 0 0 0.85rem;
+				font-weight: 900;
+				letter-spacing: -1.8px;
+				line-height: 1.02;
+				max-width: 12ch;
+				text-shadow: 0 30px 50px rgba(0, 0, 0, 0.35);
 			}
 
-			.hero p {
-				font-size: 1.15rem;
-				color: rgba(255, 255, 255, 0.85);
-				max-width: 680px;
-				margin: 1.5rem auto 0;
-				line-height: 1.8;
+			.hero p,
+			.hero-line-1,
+			.hero-line-3 {
+				font-size: clamp(1rem, 1.05vw, 1.25rem);
+				color: rgba(255, 255, 255, 0.92);
+				max-width: 720px;
+				margin: 1.25rem auto 0;
+				line-height: 1.85;
 				font-weight: 400;
 				letter-spacing: 0.3px;
+				text-shadow: 0 22px 40px rgba(0, 0, 0, 0.28);
 			}
 
 			@keyframes heroFadeUp {
@@ -128,6 +124,7 @@ const latestPosts = posts.slice(0, 3);
 			.hero-line {
 				opacity: 0;
 				animation: heroFadeUp 0.8s ease-out forwards;
+				margin: 0;
 			}
 
 			.hero-line-1 {
@@ -135,7 +132,7 @@ const latestPosts = posts.slice(0, 3);
 				font-size: 1rem;
 				text-transform: lowercase;
 				letter-spacing: 2px;
-				color: rgba(255, 255, 255, 0.7);
+				color: rgba(15, 18, 25, 0.7);
 				margin-bottom: 0.5rem;
 			}
 
@@ -146,8 +143,31 @@ const latestPosts = posts.slice(0, 3);
 			.hero-line-3 {
 				animation-delay: 1s;
 				font-size: 1.25rem;
-				color: rgba(255, 255, 255, 0.9);
-				margin-top: 1rem;
+				color: rgba(15, 18, 25, 0.9);
+				margin-top: 0.5rem;
+			}
+
+			.hero-cta {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				margin-top: 1.5rem;
+				padding: 0.9rem 1.45rem;
+				border-radius: 999px;
+				background: rgba(255, 255, 255, 0.94);
+				color: #0f1219;
+				text-decoration: none;
+				font-weight: 700;
+				font-size: 0.95rem;
+				letter-spacing: 0.02em;
+				box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+				transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+			}
+
+			.hero-cta:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
+				background: #ffffff;
 			}
 
 			.posts-section {
@@ -295,9 +315,10 @@ const latestPosts = posts.slice(0, 3);
 			}
 
 			.story-card {
-				background-size: cover;
-				background-position: center;
-				background-repeat: no-repeat;
+				background-size: cover !important;
+				background-position: center center !important;
+				background-repeat: no-repeat !important;
+				background-attachment: scroll !important;
 				padding: 2.75rem 3rem;
 				border-radius: 0.9rem;
 				text-decoration: none;
@@ -312,6 +333,7 @@ const latestPosts = posts.slice(0, 3);
 				position: relative;
 				overflow: hidden;
 				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+				transform: none !important;
 			}
 
 			.story-card::before {
@@ -347,21 +369,37 @@ const latestPosts = posts.slice(0, 3);
 			}
 
 			.story-card:hover {
-				transform: translateY(-3px);
+				transform: translateY(-3px) scale(1) !important;
 				box-shadow: 0 15px 40px rgba(46, 68, 73, 0.4);
 			}
 
 			.story-card:active {
-				transform: translateY(-1px);
+				transform: translateY(-1px) scale(1) !important;
+			}
+
+			/* Dark mode: story cards (Smuggling + Surrogate) */
+			.dark .story-card {
+				background-color: rgba(2, 6, 23, 0.18);
+				border: 1px solid rgba(255,255,255,0.06);
+				box-shadow: 0 10px 30px rgba(2,6,23,0.35);
+				transform: none !important;
+				filter: none !important;
+			}
+
+			.dark .story-card::before {
+				background: linear-gradient(180deg, rgba(0,0,0,0.58), rgba(2,6,23,0.72));
 			}
 
 			.dark .story-card h3,
 			.dark .story-card p {
-				color: white;
+				color: #f9fafb;
+				text-shadow: 0 12px 28px rgba(0,0,0,0.45);
 			}
 
 			.dark .story-card:hover {
-				box-shadow: 0 20px 50px rgba(46, 68, 73, 0.5);
+				transform: translateY(-3px) scale(1) !important;
+				box-shadow: 0 22px 58px rgba(2,6,23,0.7);
+				filter: none !important;
 			}
 
 			.dark body {
@@ -523,6 +561,24 @@ const latestPosts = posts.slice(0, 3);
 				transform: translateY(-1px);
 			}
 
+			.dark .archive-link a {
+				background: rgba(255, 255, 255, 0.08);
+				color: #f9fafb;
+				border-color: rgba(255, 255, 255, 0.18);
+				box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+			}
+
+			.dark .archive-link a:hover {
+				background: rgba(255, 255, 255, 0.18);
+				color: #0f1219;
+				border-color: rgba(255, 255, 255, 0.3);
+				box-shadow: 0 14px 32px rgba(0, 0, 0, 0.38);
+			}
+
+			.dark .archive-link a:active {
+				transform: translateY(-1px);
+			}
+
 			@media (max-width: 640px) {
 				.hero {
 					padding: 3rem 1rem 2.5rem 1rem;
@@ -564,44 +620,13 @@ const latestPosts = posts.slice(0, 3);
 		<Header />
 		<main>
 			<div class="hero">
+				<video class="hero-video" autoplay muted loop playsinline poster="/media/cover-1.webp" aria-hidden="true">
+					<source src="/media/trailer.mp4" type="video/mp4" />
+				</video>
 				<p class="hero-line hero-line-1">discover the untold story of...</p>
 				<h1 class="hero-line hero-line-2">The Smuggler's Daughter</h1>
 				<p class="hero-line hero-line-3">The <strong>INCREDIBLE</strong> journey of John Buzzanca</p>
-			</div>
-
-			<div class="posts-section">
-				<video autoplay muted loop playsinline poster="/media/cover-1.webp">
-					<source src="/media/trailer.mp4" type="video/mp4" />
-				</video>
-				<h2>Latest Stories</h2>
-				<p>Explore our most recent narratives</p>
-				<div class="posts-grid">
-					{
-						latestPosts.map((post) => (
-							<article class="post-card">
-								{post.data.heroImage && (
-									<Image
-										width={720}
-										height={360}
-										src={post.data.heroImage}
-										alt={post.data.title}
-										class="post-image"
-									/>
-								)}
-								<div class="post-content">
-									<time class="post-date">
-										<FormattedDate date={post.data.pubDate} />
-									</time>
-									<h3>{post.data.title}</h3>
-									<p class="post-description">{post.data.description}</p>
-									<a href={`/blog/${post.id}`} class="post-link">
-										Read More →
-									</a>
-								</div>
-							</article>
-						))
-					}
-				</div>
+				<a href="/trailer" class="hero-cta">Buy the Book</a>
 			</div>
 
 			<div class="stories-container">
@@ -636,6 +661,38 @@ const latestPosts = posts.slice(0, 3);
 					</blockquote>
 				</div>
 			</section>
+
+			<div class="posts-section">
+				<h2>Latest Stories</h2>
+				<p>Explore our most recent narratives</p>
+				<div class="posts-grid">
+					{
+						latestPosts.map((post) => (
+							<article class="post-card">
+								{post.data.heroImage && (
+									<Image
+										width={720}
+										height={360}
+										src={post.data.heroImage}
+										alt={post.data.title}
+										class="post-image"
+									/>
+								)}
+								<div class="post-content">
+									<time class="post-date">
+										<FormattedDate date={post.data.pubDate} />
+									</time>
+									<h3>{post.data.title}</h3>
+									<p class="post-description">{post.data.description}</p>
+									<a href={`/blog/${post.id}`} class="post-link">
+										Read More →
+									</a>
+								</div>
+							</article>
+						))
+					}
+				</div>
+			</div>
 
 			<div class="archive-link">
 				<div class="actions">
