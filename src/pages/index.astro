@@ -453,10 +453,6 @@ const latestPosts = posts.slice(0, 3);
 				border-top-color: rgba(255, 255, 255, 0.12);
 			}
 
-			.dark .archive-link a {
-				box-shadow: 0 8px 20px rgba(35, 55, 255, 0.28);
-			}
-
 			.reviews-section {
 				margin-top: 4rem;
 				text-align: center;
@@ -533,52 +529,6 @@ const latestPosts = posts.slice(0, 3);
 				flex-wrap: wrap;
 			}
 
-			.archive-link a {
-				display: inline-flex;
-				align-items: center;
-				justify-content: center;
-				background: #ffffff;
-				color: #0f1219;
-				padding: 0.9rem 1.5rem;
-				border-radius: 999px;
-				text-decoration: none;
-				font-weight: 700;
-				font-size: 0.95rem;
-				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-				letter-spacing: 0.02em;
-				border: 1px solid #0f1219;
-				box-shadow: 0 8px 20px rgba(15, 18, 25, 0.08);
-			}
-
-			.archive-link a:hover {
-				transform: translateY(-2px);
-				background: #0f1219;
-				color: #ffffff;
-				box-shadow: 0 12px 28px rgba(15, 18, 25, 0.16);
-			}
-
-			.archive-link a:active {
-				transform: translateY(-1px);
-			}
-
-			.dark .archive-link a {
-				background: rgba(255, 255, 255, 0.08);
-				color: #f9fafb;
-				border-color: rgba(255, 255, 255, 0.18);
-				box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
-			}
-
-			.dark .archive-link a:hover {
-				background: rgba(255, 255, 255, 0.18);
-				color: #0f1219;
-				border-color: rgba(255, 255, 255, 0.3);
-				box-shadow: 0 14px 32px rgba(0, 0, 0, 0.38);
-			}
-
-			.dark .archive-link a:active {
-				transform: translateY(-1px);
-			}
-
 			@media (max-width: 640px) {
 				.hero {
 					padding: 3rem 1rem 2.5rem 1rem;
@@ -614,6 +564,7 @@ const latestPosts = posts.slice(0, 3);
 					font-size: 1.35rem;
 				}
 			}
+
 		</style>
 	</head>
 	<body>
@@ -626,7 +577,41 @@ const latestPosts = posts.slice(0, 3);
 				<p class="hero-line hero-line-1">discover the untold story of...</p>
 				<h1 class="hero-line hero-line-2">The Smuggler's Daughter</h1>
 				<p class="hero-line hero-line-3">The <strong>INCREDIBLE</strong> journey of John Buzzanca</p>
-				<a href="/trailer" class="hero-cta">Buy the Book</a>
+			</div>
+
+			<div class="posts-section">
+				<video autoplay muted loop playsinline poster="/media/cover-1.webp">
+					<source src="/media/trailer.mp4" type="video/mp4" />
+				</video>
+				<h2>Latest Stories</h2>
+				<p>Explore our most recent narratives</p>
+				<div class="posts-grid">
+					{
+						latestPosts.map((post) => (
+							<article class="post-card">
+								{post.data.heroImage && (
+									<Image
+										width={720}
+										height={360}
+										src={post.data.heroImage}
+										alt={post.data.title}
+										class="post-image"
+									/>
+								)}
+								<div class="post-content">
+									<time class="post-date">
+										<FormattedDate date={post.data.pubDate} />
+									</time>
+									<h3>{post.data.title}</h3>
+									<p class="post-description">{post.data.description}</p>
+									<a href={`/blog/${post.id}`} class="post-link">
+										Read More →
+									</a>
+								</div>
+							</article>
+						))
+					}
+				</div>
 			</div>
 
 			<div class="stories-container">
@@ -696,11 +681,26 @@ const latestPosts = posts.slice(0, 3);
 
 			<div class="archive-link">
 				<div class="actions">
-					<a href="/blog">View All Stories</a>
-					<a href="/trailer">Watch the Trailer</a>
+					<a href="/blog" class="btn-outline">View All Stories</a>
+					<a href="/trailer" class="btn-filled">Watch the Trailer</a>
 				</div>
 			</div>
 		</main>
+
+		<!-- Final CTA -->
+		<section class="border-t border-gray-200 bg-gray-100 px-6 py-16 text-center dark:border-gray-700 dark:bg-gray-950">
+			<h2 class="text-xl font-bold text-brand dark:text-white" style="font-size: 1.25rem; margin: 0;">Ready to read the full story?</h2>
+			<p class="mt-2 text-sm text-muted" style="margin-top: 0.5rem; font-size: 0.875rem;">Available now in paperback.</p>
+			<a
+				href="https://www.amazon.com/Smugglers-Daughter-Drugs-Surrogacy-Industry/dp/B0FLVXRFLX"
+				target="_blank"
+				rel="noopener"
+				class="btn-filled"
+				style="margin-top: 1.5rem;"
+			>
+				Buy the Book
+			</a>
+		</section>
 		<!-- Back to top button -->
 		<button
 			id="back-to-top"
