@@ -28,6 +28,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 	<body>
 		<Header />
 		<main id="main-content" class="mx-auto max-w-4xl px-4 py-10">
+			<h1 class="mb-8 text-3xl font-bold tracking-tight text-brand dark:text-white">Blog</h1>
 			<!-- Search & Filter -->
 			<div class="mb-8 space-y-4">
 				<div class="relative">
@@ -51,6 +52,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 					{allTags.map((tag) => (
 						<button
 							data-tag={tag}
+							aria-pressed="false"
 							class="tag-btn rounded-full border border-gray-200 px-3 py-1 text-xs font-medium text-muted transition-all hover:border-brand hover:text-brand dark:border-gray-700 dark:hover:border-white dark:hover:text-white"
 						>
 							{tag}
@@ -216,7 +218,10 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 			clearFilters.addEventListener('click', () => {
 				search.value = '';
 				activeTag = '';
-				tagBtns.forEach((b) => b.classList.remove('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white'));
+				tagBtns.forEach((b) => {
+					b.classList.remove('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white');
+					b.setAttribute('aria-pressed', 'false');
+				});
 				currentPage = 1;
 				render();
 			});
@@ -227,10 +232,15 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 					if (activeTag === tag) {
 						activeTag = '';
 						btn.classList.remove('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white');
+						btn.setAttribute('aria-pressed', 'false');
 					} else {
-						tagBtns.forEach((b) => b.classList.remove('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white'));
+						tagBtns.forEach((b) => {
+							b.classList.remove('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white');
+							b.setAttribute('aria-pressed', 'false');
+						});
 						activeTag = tag;
 						btn.classList.add('bg-brand', 'text-white', 'border-brand', 'dark:bg-white', 'dark:text-brand', 'dark:border-white');
+						btn.setAttribute('aria-pressed', 'true');
 					}
 					currentPage = 1;
 					render();

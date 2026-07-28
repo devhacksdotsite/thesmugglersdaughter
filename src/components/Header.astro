@@ -89,6 +89,23 @@ import HeaderLink from './HeaderLink.astro';
 		menu?.classList.toggle('hidden');
 		iconOpen?.classList.toggle('hidden');
 		iconClose?.classList.toggle('hidden');
+
+		// Focus management
+		if (!expanded) {
+			const firstLink = menu?.querySelector('a');
+			firstLink?.focus();
+		}
+	});
+
+	// Close menu on Escape
+	menu?.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape') {
+			toggle?.setAttribute('aria-expanded', 'false');
+			menu.classList.add('hidden');
+			iconOpen?.classList.remove('hidden');
+			iconClose?.classList.add('hidden');
+			toggle?.focus();
+		}
 	});
 
 	const themeToggle = document.getElementById('theme-toggle');

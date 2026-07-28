@@ -28,7 +28,7 @@ const latestPosts = posts.slice(0, 3);
 			}
 
 			body {
-				font-family: var(--font-body) !important;
+				font-family: var(--font-body);
 				background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 50%, #f0f0f5 100%);
 				min-height: 100vh;
 			}
@@ -321,10 +321,10 @@ const latestPosts = posts.slice(0, 3);
 			}
 
 			.story-card {
-				background-size: cover !important;
-				background-position: center center !important;
-				background-repeat: no-repeat !important;
-				background-attachment: scroll !important;
+				background-size: cover;
+				background-position: center center;
+				background-repeat: no-repeat;
+				background-attachment: scroll;
 				padding: 3rem;
 				border-radius: 0.9rem;
 				text-decoration: none;
@@ -378,12 +378,12 @@ const latestPosts = posts.slice(0, 3);
 			}
 
 			.story-card:hover {
-				transform: translateY(-3px) scale(1) !important;
+				transform: translateY(-3px);
 				box-shadow: 0 15px 40px rgba(46, 68, 73, 0.4);
 			}
 
 			.story-card:active {
-				transform: translateY(-1px) scale(1) !important;
+				transform: translateY(-1px);
 			}
 
 			.story-cta {
@@ -408,8 +408,8 @@ const latestPosts = posts.slice(0, 3);
 				background-color: rgba(2, 6, 23, 0.18);
 				border: 1px solid rgba(255,255,255,0.06);
 				box-shadow: 0 10px 30px rgba(2,6,23,0.35);
-				transform: none !important;
-				filter: none !important;
+				transform: none;
+				filter: none;
 			}
 
 			.dark .story-card::before {
@@ -423,9 +423,9 @@ const latestPosts = posts.slice(0, 3);
 			}
 
 			.dark .story-card:hover {
-				transform: translateY(-3px) scale(1) !important;
+				transform: translateY(-3px);
 				box-shadow: 0 22px 58px rgba(2,6,23,0.7);
-				filter: none !important;
+				filter: none;
 			}
 
 			.dark body {
@@ -723,6 +723,7 @@ const latestPosts = posts.slice(0, 3);
 			</div>
 
 			<!-- 2. Two Stories -->
+			<h2 class="sr-only">Featured Stories</h2>
 			<div class="stories-container">
 				<a href="/smuggler-story" class="story-card" style="background-image: url('https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/ryFFM2PahlMxJvflm1nc/media/68bb418c1ff6ea7b62f4df41.png');">
 					<h3>Smuggling Story</h3>

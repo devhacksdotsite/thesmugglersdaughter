@@ -63,7 +63,7 @@ const tocHeadings = (headings ?? []).filter((h) => h.depth <= 3);
 				</header>
 				<div class="prose max-w-none text-brand-light dark:text-gray-300">
 					{tocHeadings.length > 2 && (
-						<nav class="not-prose mb-8 rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+						<nav aria-label="Table of contents" class="not-prose mb-8 rounded-lg border border-gray-200 p-4 dark:border-gray-700">
 							<p class="mb-2 text-sm font-semibold text-brand dark:text-white">Table of Contents</p>
 							<ul class="space-y-1">
 								{tocHeadings.map((h) => (
