@@ -131,10 +131,20 @@ pre > code {
 	font-weight: 600;
 	text-decoration: none;
 	transition: all 0.2s ease;
+	cursor: pointer;
 }
 .btn-filled:hover {
-	background-color: var(--color-brand-light);
+	background-color: #111827;
+	color: #fff;
 	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(31, 41, 55, 0.2);
+}
+.btn-filled:focus-visible {
+	outline: 2px solid var(--color-brand);
+	outline-offset: 2px;
+}
+.btn-filled:active {
+	transform: translateY(0);
 }
 .dark .btn-filled {
 	background-color: #fff;
@@ -142,6 +152,10 @@ pre > code {
 }
 .dark .btn-filled:hover {
 	background-color: #e5e7eb;
+	box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+}
+.dark .btn-filled:focus-visible {
+	outline-color: #fff;
 }
 
 .btn-outline {
@@ -154,11 +168,20 @@ pre > code {
 	font-weight: 600;
 	text-decoration: none;
 	transition: all 0.2s ease;
+	cursor: pointer;
 }
 .btn-outline:hover {
 	background-color: var(--color-brand);
 	color: #fff;
 	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(31, 41, 55, 0.2);
+}
+.btn-outline:focus-visible {
+	outline: 2px solid var(--color-brand);
+	outline-offset: 2px;
+}
+.btn-outline:active {
+	transform: translateY(0);
 }
 .dark .btn-outline {
 	border-color: #fff;
@@ -167,6 +190,10 @@ pre > code {
 .dark .btn-outline:hover {
 	background-color: #fff;
 	color: var(--color-brand);
+	box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+}
+.dark .btn-outline:focus-visible {
+	outline-color: #fff;
 }
 
 .prose blockquote {
