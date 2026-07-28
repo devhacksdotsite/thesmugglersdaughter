@@ -6,6 +6,7 @@ import Header from '../components/Header.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { getCollection } from 'astro:content';
+import authorImage from '../assets/about/author.jpg';
 
 // Get all blog posts and sort by date (newest first)
 const posts = (await getCollection('blog')).sort(
@@ -53,7 +54,7 @@ const latestPosts = posts.slice(0, 3);
 				padding: 6rem 2rem 5rem;
 				margin: 0 0 4rem;
 				text-align: center;
-				border-radius: 32px;
+				border-radius: 0.9rem;
 				border: 1px solid rgba(15, 18, 25, 0.08);
 				box-shadow: 0 20px 50px rgba(15, 18, 25, 0.08);
 				position: relative;
@@ -231,13 +232,13 @@ const latestPosts = posts.slice(0, 3);
 				transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 				display: flex;
 				flex-direction: column;
-				border: 1px solid rgba(35, 55, 255, 0.05);
+				border: 1px solid rgba(31, 41, 55, 0.08);
 			}
 
 			.post-card:hover {
 				transform: translateY(-8px);
-				box-shadow: 0 25px 50px rgba(15, 18, 25, 0.15), 0 2px 8px rgba(35, 55, 255, 0.2);
-				border-color: rgba(35, 55, 255, 0.15);
+				box-shadow: 0 25px 50px rgba(15, 18, 25, 0.12);
+				border-color: rgba(31, 41, 55, 0.15);
 			}
 
 			.post-image {
@@ -291,7 +292,7 @@ const latestPosts = posts.slice(0, 3);
 				display: inline-flex;
 				align-items: center;
 				gap: 0.5rem;
-				color: #2337ff;
+				color: var(--color-brand);
 				text-decoration: none;
 				font-weight: 600;
 				font-size: 0.95rem;
@@ -301,17 +302,22 @@ const latestPosts = posts.slice(0, 3);
 			}
 
 			.post-link:hover {
-				color: #000d8a;
+				color: var(--color-brand-light);
 				gap: 0.75rem;
 			}
 
 			.stories-container {
-				display: flex;
-				justify-content: center;
+				display: grid;
+				grid-template-columns: 1fr 1fr;
 				gap: 1.25rem;
-				flex-wrap: wrap;
 				margin: 0 0 3rem;
 				padding: 0;
+			}
+
+			@media (max-width: 640px) {
+				.stories-container {
+					grid-template-columns: 1fr;
+				}
 			}
 
 			.story-card {
@@ -319,31 +325,34 @@ const latestPosts = posts.slice(0, 3);
 				background-position: center center !important;
 				background-repeat: no-repeat !important;
 				background-attachment: scroll !important;
-				padding: 2.75rem 3rem;
+				padding: 3rem;
 				border-radius: 0.9rem;
 				text-decoration: none;
 				border: 1px solid transparent;
-				flex: 1 1 320px;
-				max-width: 430px;
-				min-height: 250px;
+				min-height: 320px;
 				display: flex;
 				flex-direction: column;
-				justify-content: center;
-				align-items: center;
+				justify-content: flex-end;
+				align-items: flex-start;
 				position: relative;
 				overflow: hidden;
 				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-				transform: none !important;
+				cursor: pointer;
 			}
 
 			.story-card::before {
 				content: '';
 				position: absolute;
 				inset: 0;
-				background: rgba(46, 68, 73, 0.6);
+				background: linear-gradient(to top, rgba(15, 18, 25, 0.8) 0%, rgba(15, 18, 25, 0.3) 50%, transparent 100%);
 				z-index: 1;
-				border-radius: 0.5rem;
+				border-radius: 0.9rem;
 				pointer-events: none;
+				transition: background 0.3s ease;
+			}
+
+			.story-card:hover::before {
+				background: linear-gradient(to top, rgba(15, 18, 25, 0.9) 0%, rgba(15, 18, 25, 0.4) 60%, rgba(15, 18, 25, 0.1) 100%);
 			}
 
 			.story-card h3,
@@ -375,6 +384,23 @@ const latestPosts = posts.slice(0, 3);
 
 			.story-card:active {
 				transform: translateY(-1px) scale(1) !important;
+			}
+
+			.story-cta {
+				position: relative;
+				z-index: 2;
+				display: inline-block;
+				margin-top: 1rem;
+				font-size: 0.8rem;
+				font-weight: 600;
+				color: rgba(255, 255, 255, 0.7);
+				letter-spacing: 0.5px;
+				transition: color 0.3s ease, transform 0.3s ease;
+			}
+
+			.story-card:hover .story-cta {
+				color: #fff;
+				transform: translateX(4px);
 			}
 
 			/* Dark mode: story cards (Smuggling + Surrogate) */
@@ -421,8 +447,8 @@ const latestPosts = posts.slice(0, 3);
 			}
 
 			.dark .post-card:hover {
-				box-shadow: 0 20px 45px rgba(2, 6, 23, 0.6), 0 2px 8px rgba(35, 55, 255, 0.2);
-				border-color: rgba(35, 55, 255, 0.25);
+				box-shadow: 0 20px 45px rgba(2, 6, 23, 0.6);
+				border-color: rgba(255, 255, 255, 0.15);
 			}
 
 			.dark .post-image {
@@ -442,15 +468,130 @@ const latestPosts = posts.slice(0, 3);
 			}
 
 			.dark .post-link {
-				color: #8bb4ff;
+				color: #fff;
 			}
 
 			.dark .post-link:hover {
-				color: #c7d9ff;
+				color: #e5e7eb;
 			}
 
 			.dark .archive-link {
 				border-top-color: rgba(255, 255, 255, 0.12);
+			}
+
+			.author-section {
+				margin: 3rem 0;
+				padding: 2.5rem 0;
+				border-top: 1px solid rgba(31, 41, 55, 0.1);
+			}
+
+			.author-card {
+				display: flex;
+				align-items: flex-start;
+				gap: 1.5rem;
+				max-width: 620px;
+				margin: 0 auto;
+			}
+
+			.author-img {
+				width: 100px;
+				height: 100px;
+				border-radius: 50%;
+				object-fit: cover;
+				flex-shrink: 0;
+			}
+
+			.author-info strong {
+				font-size: 1rem;
+				color: var(--color-brand);
+			}
+
+			.dark .author-info strong {
+				color: #fff;
+			}
+
+			.author-info p {
+				font-size: 0.875rem;
+				color: var(--color-muted);
+				line-height: 1.6;
+				margin: 0.35rem 0 0;
+			}
+
+			.author-links {
+				display: flex;
+				gap: 0.75rem;
+				margin-top: 1rem;
+				flex-wrap: wrap;
+			}
+
+			@media (max-width: 640px) {
+				.author-card {
+					flex-direction: column;
+					align-items: center;
+					text-align: center;
+				}
+				.author-links {
+					justify-content: center;
+				}
+			}
+
+			.trailer-link {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+				padding: 1.25rem 1.5rem;
+				border: 1px solid rgba(31, 41, 55, 0.12);
+				border-radius: 0.9rem;
+				text-decoration: none;
+				transition: all 0.3s ease;
+			}
+
+			.trailer-link:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 10px 30px rgba(15, 18, 25, 0.1);
+			}
+
+			.trailer-play {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 3.5rem;
+				height: 3.5rem;
+				border-radius: 50%;
+				background: var(--color-brand);
+				color: #fff;
+				flex-shrink: 0;
+				transition: transform 0.3s ease;
+			}
+
+			.trailer-link:hover .trailer-play {
+				transform: scale(1.1);
+			}
+
+			.dark .trailer-play {
+				background: #fff;
+				color: var(--color-brand);
+			}
+
+			.trailer-text {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.trailer-title {
+				font-size: 0.95rem;
+				font-weight: 600;
+				color: var(--color-brand);
+			}
+
+			.dark .trailer-title {
+				color: #fff;
+			}
+
+			.trailer-sub {
+				font-size: 0.75rem;
+				color: var(--color-muted);
+				margin-top: 0.15rem;
 			}
 
 			.reviews-section {
@@ -475,7 +616,7 @@ const latestPosts = posts.slice(0, 3);
 
 			.reviews-grid blockquote {
 				background: white;
-				border: 1px solid rgba(35, 55, 255, 0.08);
+				border: 1px solid rgba(31, 41, 55, 0.08);
 				border-radius: 12px;
 				padding: 1.5rem;
 				text-align: left;
@@ -520,7 +661,7 @@ const latestPosts = posts.slice(0, 3);
 				text-align: center;
 				margin-top: 3rem;
 				padding-top: 3rem;
-				border-top: 1px solid rgba(35, 55, 255, 0.1);
+				border-top: 1px solid rgba(31, 41, 55, 0.1);
 			}
 
 			.archive-link .actions {
@@ -571,6 +712,7 @@ const latestPosts = posts.slice(0, 3);
 	<body>
 		<Header />
 		<main>
+			<!-- 1. Hero -->
 			<div class="hero">
 				<video class="hero-video" autoplay muted loop playsinline poster="/media/cover-1.webp" aria-hidden="true">
 					<source src="/media/trailer.mp4" type="video/mp4" />
@@ -580,60 +722,21 @@ const latestPosts = posts.slice(0, 3);
 				<p class="hero-line hero-line-3">The <strong>INCREDIBLE</strong> journey of John Buzzanca</p>
 			</div>
 
-			<div class="posts-section">
-				<video autoplay muted loop playsinline poster="/media/cover-1.webp">
-					<source src="/media/trailer.mp4" type="video/mp4" />
-				</video>
-				<h2>Latest Stories</h2>
-				<p>Explore our most recent narratives</p>
-				<div class="posts-grid">
-					{
-						latestPosts.map((post) => (
-							<article class="post-card">
-								{post.data.heroImage && (
-									<Image
-										width={720}
-										height={360}
-										src={post.data.heroImage}
-										alt={post.data.title}
-										class="post-image"
-									/>
-								)}
-								<div class="post-content">
-									<time class="post-date">
-										<FormattedDate date={post.data.pubDate} />
-									</time>
-									<h3>{post.data.title}</h3>
-									<p class="post-description">{post.data.description}</p>
-									<a href={`/blog/${post.id}`} class="post-link">
-										Read More →
-									</a>
-								</div>
-							</article>
-						))
-					}
-				</div>
-			</div>
-
+			<!-- 2. Two Stories -->
 			<div class="stories-container">
 				<a href="/smuggler-story" class="story-card" style="background-image: url('https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/ryFFM2PahlMxJvflm1nc/media/68bb418c1ff6ea7b62f4df41.png');">
 					<h3>Smuggling Story</h3>
 					<p>Risk, power, and betrayal</p>
+					<span class="story-cta">Read more →</span>
 				</a>
 				<a href="/surrogate-story" class="story-card" style="background-image: url('https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/ryFFM2PahlMxJvflm1nc/media/68bb4899460af21778791eec.png');">
 					<h3>Surrogate Story</h3>
 					<p>Love, law, and legacy</p>
+					<span class="story-cta">Read more →</span>
 				</a>
 			</div>
 
-			<!-- Timeline CTA -->
-			<div style="text-align: center; margin: 3rem 0;">
-				<a href="/timeline" style="display: inline-flex; align-items: center; gap: 0.5rem; color: inherit; text-decoration: none; font-weight: 600; font-size: 0.95rem; padding: 0.75rem 1.5rem; border: 1px solid rgba(31, 41, 55, 0.3); border-radius: 8px; transition: all 0.3s ease;">
-					Explore the Full Timeline →
-				</a>
-			</div>
-
-			<!-- Reviews -->
+			<!-- 3. Reviews -->
 			<section class="reviews-section">
 				<h2>What Readers Are Saying</h2>
 				<div class="reviews-grid">
@@ -648,6 +751,20 @@ const latestPosts = posts.slice(0, 3);
 				</div>
 			</section>
 
+			<!-- 4. Trailer -->
+			<div style="margin: 3rem 0;">
+				<a href="/trailer" class="trailer-link">
+					<div class="trailer-play">
+						<svg class="h-6 w-6" style="margin-left: 2px;" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+					</div>
+					<div class="trailer-text">
+						<span class="trailer-title">The Smuggler's Daughter — Official Trailer</span>
+						<span class="trailer-sub">Click to watch</span>
+					</div>
+				</a>
+			</div>
+
+			<!-- 5. Latest Blog Posts -->
 			<div class="posts-section">
 				<h2>Latest Stories</h2>
 				<p>Explore our most recent narratives</p>
@@ -678,17 +795,34 @@ const latestPosts = posts.slice(0, 3);
 						))
 					}
 				</div>
+				<div style="text-align: center; margin-top: 2rem;">
+					<a href="/blog" class="btn-outline">View All Stories</a>
+				</div>
 			</div>
 
-			<div class="archive-link">
-				<div class="actions">
-					<a href="/blog" class="btn-outline">View All Stories</a>
-					<a href="/trailer" class="btn-filled">Watch the Trailer</a>
+			<!-- 6. About the Author + Timeline -->
+			<div class="author-section">
+				<div class="author-card">
+					<Image
+						src={authorImage}
+						alt="John Buzzanca"
+						width={100}
+						height={100}
+						class="author-img"
+					/>
+					<div class="author-info">
+						<strong>John Buzzanca</strong>
+						<p>Writer and legal professional based in Southern Orange County. Author of <em>The Smuggler's Daughter</em> — a true story of smuggling, surrogacy, and redemption.</p>
+						<div class="author-links">
+							<a href="/about" class="btn-outline">About the Author</a>
+							<a href="/timeline" class="btn-outline">Explore the Timeline →</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</main>
 
-		<!-- Final CTA -->
+		<!-- 8. Final CTA -->
 		<section class="border-t border-gray-200 bg-gray-100 px-6 py-16 text-center dark:border-gray-700 dark:bg-gray-950">
 			<h2 class="text-xl font-bold text-brand dark:text-white" style="font-size: 1.25rem; margin: 0;">Ready to read the full story?</h2>
 			<p class="mt-2 text-sm text-muted" style="margin-top: 0.5rem; font-size: 0.875rem;">Available now in paperback.</p>
