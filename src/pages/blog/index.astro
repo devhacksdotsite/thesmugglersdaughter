@@ -23,11 +23,11 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={`Blog — ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
-		<main class="mx-auto max-w-4xl px-4 py-10">
+		<main id="main-content" class="mx-auto max-w-4xl px-4 py-10">
 			<!-- Search & Filter -->
 			<div class="mb-8 space-y-4">
 				<div class="relative">
@@ -35,6 +35,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 						id="search"
 						type="text"
 						placeholder="Search posts..."
+						aria-label="Search posts"
 						class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-brand outline-none transition focus:border-brand-light dark:border-gray-700 dark:bg-surface-dark dark:text-white"
 					/>
 					<button
@@ -79,7 +80,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 										width={720}
 										height={360}
 										src={post.data.heroImage}
-										alt=""
+										alt={post.data.title}
 										class="mb-3 w-full rounded-xl transition group-hover:shadow-md"
 									/>
 								)}

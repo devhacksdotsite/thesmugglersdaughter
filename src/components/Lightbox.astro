@@ -5,6 +5,9 @@
 <div
 	id="lightbox"
 	class="fixed inset-0 z-[200] hidden cursor-zoom-out items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+	role="dialog"
+	aria-modal="true"
+	aria-label="Image lightbox"
 >
 	<button
 		id="lightbox-close"
@@ -20,17 +23,32 @@
 	const lightbox = document.getElementById('lightbox')!;
 	const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
 	const lightboxClose = document.getElementById('lightbox-close')!;
+	let lastFocused: HTMLElement | null = null;
 
 	// Make all images in article clickable
 	document.querySelectorAll('article img').forEach((img) => {
 		const el = img as HTMLImageElement;
 		el.style.cursor = 'zoom-in';
-		el.addEventListener('click', () => {
+		el.setAttribute('tabindex', '0');
+		el.setAttribute('role', 'button');
+		el.setAttribute('aria-label', `View full size: ${el.alt || 'image'}`);
+
+		const openLightbox = () => {
+			lastFocused = document.activeElement as HTMLElement;
 			lightboxImg.src = el.src;
 			lightboxImg.alt = el.alt;
 			lightbox.classList.remove('hidden');
 			lightbox.classList.add('flex');
 			document.body.style.overflow = 'hidden';
+			lightboxClose.focus();
+		};
+
+		el.addEventListener('click', openLightbox);
+		el.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter' || e.key === ' ') {
+				e.preventDefault();
+				openLightbox();
+			}
 		});
 	});
 
@@ -38,6 +56,7 @@
 		lightbox.classList.add('hidden');
 		lightbox.classList.remove('flex');
 		document.body.style.overflow = '';
+		lastFocused?.focus();
 	}
 
 	lightboxClose.addEventListener('click', closeLightbox);
@@ -46,5 +65,12 @@
 	});
 	document.addEventListener('keydown', (e) => {
 		if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) closeLightbox();
+	});
+
+	// Focus trap
+	lightbox.addEventListener('keydown', (e) => {
+		if (e.key !== 'Tab' || lightbox.classList.contains('hidden')) return;
+		e.preventDefault();
+		lightboxClose.focus();
 	});
 </script>
