@@ -20,9 +20,28 @@ const url = Astro.url.href;
 const tocHeadings = (headings ?? []).filter((h) => h.depth <= 3);
 ---
 
+<!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} />
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "Article",
+			"headline": title,
+			"description": description,
+			"datePublished": pubDate.toISOString(),
+			...(updatedDate && { "dateModified": updatedDate.toISOString() }),
+			"author": {
+				"@type": "Person",
+				"name": "John Buzzanca",
+				"url": "https://thesmugglersdaughter.com/about"
+			},
+			"publisher": {
+				"@type": "Organization",
+				"name": "The Smuggler's Daughter"
+			},
+			"mainEntityOfPage": url
+		})} />
 	</head>
 
 	<body>
@@ -34,7 +53,7 @@ const tocHeadings = (headings ?? []).filter((h) => h.depth <= 3);
 			<article>
 				{heroImage && (
 					<div class="mb-8">
-						<Image width={1020} height={510} src={heroImage} alt={title} class="w-full rounded-xl shadow-md" />
+						<Image width={1020} height={510} src={heroImage} alt={title} sizes="(max-width: 768px) 100vw, 768px" class="w-full rounded-xl shadow-md" />
 					</div>
 				)}
 				<header class="mb-8 text-center">
