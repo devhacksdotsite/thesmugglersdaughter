@@ -5,7 +5,7 @@ pubDate: "Feb 28 2025"
 tags:
   - career
   - personal
-heroImage: "../../assets/blog-placeholder-1.jpg"
+heroImage: "../../assets/blog-placeholder-3.jpg"
 ---
 
 The first day at Chapman, I parked my truck next to a row of brand-new cars that cost more than my annual salary. I was twice the age of most students and carrying a past that none of them could imagine.

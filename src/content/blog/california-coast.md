@@ -5,7 +5,7 @@ pubDate: "Mar 15 2025"
 tags:
   - smuggling
   - story
-heroImage: "../../assets/blog-placeholder-1.jpg"
+heroImage: "../../assets/blog-placeholder-2.jpg"
 ---
 
 The California coastline stretches over 800 miles, and every inlet tells a story. For those of us who worked the waters, the fog wasn't an obstacle — it was an ally.
